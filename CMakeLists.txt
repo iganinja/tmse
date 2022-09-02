@@ -5,7 +5,10 @@ project(TMSE LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(TMSE main.cpp)
+add_subdirectory(src)
+
+add_executable(TMSE
+    main.cpp)
 
 include(FetchContent)
 
@@ -44,6 +47,7 @@ add_subdirectory(./olagarro/tasks ./lib)
 target_link_libraries(TMSE
   PRIVATE cpp-terminal
   PRIVATE tasks
+  PRIVATE TextEditor
 )
 
 set_target_properties(TMSE PROPERTIES LINK_SEARCH_START_STATIC 1)
@@ -51,3 +55,4 @@ set_target_properties(TMSE PROPERTIES LINK_SEARCH_END_STATIC 1)
 set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
 
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -static -lstdc++ -lpthread")
+
