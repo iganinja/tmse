@@ -18,13 +18,7 @@ namespace TMSE
 
 TextEditor::TextEditor()
 {
-    mExecutor.addTask(serial(
-                            wait(1.0f),
-                            execute([this]()
-                            {
-                              mKeepRunning = false;
-                            }))
-                          );
+    createTasks();
 }
 
 bool TextEditor::run()
@@ -51,6 +45,19 @@ bool TextEditor::run()
     std::cout << "Total time = " << duration_cast<milliseconds>(high_resolution_clock::now() - totalStart).count() << "ms\n";
 
     return 0;
+}
+
+void TextEditor::createTasks()
+{
+    mExecutor.addTask(
+                        serial(
+                            wait(1.0f),
+                            execute([this]()
+                            {
+                                mKeepRunning = false;
+                            })
+                        )
+                      );
 }
 
 }

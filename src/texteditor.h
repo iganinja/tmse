@@ -17,6 +17,8 @@ public:
     bool run();
 
 private:
+    void createTasks();
+
     Olagarro::Tasks::TaskExecutor mExecutor;
     bool mKeepRunning = true;
 
