@@ -42,11 +42,8 @@ endif()
 
 include_directories(./olagarro/tasks/include)
 
-add_subdirectory(./olagarro/tasks ./lib)
-
 target_link_libraries(TMSE
   PRIVATE cpp-terminal
-  PRIVATE tasks
   PRIVATE TextEditor
 )
 

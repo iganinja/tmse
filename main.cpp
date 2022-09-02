@@ -4,7 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <tasks/taskexecutor.h>
+#include "src/texteditor.h"
 
 using Term::bg;
 using Term::fg;
@@ -51,63 +51,67 @@ std::string render(Term::Window_24bit& scr, const std::vector<std::string>& line
     return scr.render(1, 1, true);
 }
 
-int main() {
-    try {
-        // check if the terminal is capable of handling input
-        if (!Term::is_stdin_a_tty()) {
-            std::cout << "The terminal is not attached to a TTY and therefore "
-                         "can't catch user input. Exiting...\n";
-            return 1;
-        }
-        Terminal term(true, true, false, false);
-        int rows{}, cols{};
-        Term::get_term_size(rows, cols);
-        int pos = 5;
-        int h = 10;
-        int w = 10;
-        bool on = true;
-        Term::Window_24bit scr(cols, rows);
+int main()
+{
+    TMSE::TextEditor editor;
 
-        const auto lines = loadFile("main.cpp");
+    return editor.run();
+//    try {
+//        // check if the terminal is capable of handling input
+//        if (!Term::is_stdin_a_tty()) {
+//            std::cout << "The terminal is not attached to a TTY and therefore "
+//                         "can't catch user input. Exiting...\n";
+//            return 1;
+//        }
+//        Terminal term(true, true, false, false);
+//        int rows{}, cols{};
+//        Term::get_term_size(rows, cols);
+//        int pos = 5;
+//        int h = 10;
+//        int w = 10;
+//        bool on = true;
+//        Term::Window_24bit scr(cols, rows);
 
-        while (on) {
-            std::cout << render(scr, lines) << std::flush;
-            int key = Term::read_key();
-            switch (key) {
-                case Key::ARROW_LEFT:
-                    if (w > 10)
-                        w--;
-                    break;
-                case Key::ARROW_RIGHT:
-                    if (w < cols - 5)
-                        w++;
-                    break;
-                case Key::ARROW_UP:
-                    if (pos > 1)
-                        pos--;
-                    break;
-                case Key::ARROW_DOWN:
-                    if (pos < h)
-                        pos++;
-                    break;
-                case Key::HOME:
-                    pos = 1;
-                    break;
-                case Key::END:
-                    pos = h;
-                    break;
-                case 'q':
-                case Key::ESC:
-                    on = false;
-                    break;
-            }
-        }
-    } catch (const std::runtime_error& re) {
-        std::cerr << "Runtime error: " << re.what() << std::endl;
-        return 2;
-    } catch (...) {
-        std::cerr << "Unknown error." << std::endl;
-        return 1;
-    }
-    return 0;
+//        const auto lines = loadFile("main.cpp");
+
+//        while (on) {
+//            std::cout << render(scr, lines) << std::flush;
+//            int key = Term::read_key();
+//            switch (key) {
+//                case Key::ARROW_LEFT:
+//                    if (w > 10)
+//                        w--;
+//                    break;
+//                case Key::ARROW_RIGHT:
+//                    if (w < cols - 5)
+//                        w++;
+//                    break;
+//                case Key::ARROW_UP:
+//                    if (pos > 1)
+//                        pos--;
+//                    break;
+//                case Key::ARROW_DOWN:
+//                    if (pos < h)
+//                        pos++;
+//                    break;
+//                case Key::HOME:
+//                    pos = 1;
+//                    break;
+//                case Key::END:
+//                    pos = h;
+//                    break;
+//                case 'q':
+//                case Key::ESC:
+//                    on = false;
+//                    break;
+//            }
+//        }
+//    } catch (const std::runtime_error& re) {
+//        std::cerr << "Runtime error: " << re.what() << std::endl;
+//        return 2;
+//    } catch (...) {
+//        std::cerr << "Unknown error." << std::endl;
+//        return 1;
+//    }
+//    return 0;
 }

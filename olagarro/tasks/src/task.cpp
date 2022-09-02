@@ -99,5 +99,9 @@ std::vector<std::unique_ptr<Task>> Task::grabChildren()
     return {};
 }
 
+void Task::taskOnAboutToStart()
+{
+}
+
 }
 }

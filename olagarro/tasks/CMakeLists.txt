@@ -23,6 +23,7 @@ add_library(tasks STATIC
   include/tasks/taskscore.h
   include/tasks/wait.h
   include/tasks/select.h
+  include/tasks/execute.h
 )
 
 include_directories(include)

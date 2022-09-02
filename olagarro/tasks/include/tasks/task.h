@@ -44,7 +44,7 @@ public:
 
 
 protected:
-    virtual void taskOnAboutToStart() = 0;
+    virtual void taskOnAboutToStart();
     virtual State taskUpdate(float deltaTime) = 0;
 
 #ifdef TASKS_USE_NAMES
