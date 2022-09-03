@@ -2,6 +2,7 @@
 #define TEXTEDITOR_H
 
 #include "commands/undoredostack.h"
+#include "document.h"
 
 #include <tasks/taskexecutor.h>
 
@@ -23,6 +24,7 @@ private:
     bool mKeepRunning = true;
 
     UndoRedoStack mUndoRedoStack;
+    Document document;
 };
 
 }

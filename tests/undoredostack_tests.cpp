@@ -1,4 +1,3 @@
-
 #include "../src/commands/undoredostack.h"
 
 #include <gtest/gtest.h>

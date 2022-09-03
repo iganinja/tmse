@@ -6,7 +6,11 @@ add_library(TextEditor STATIC
     commands/undoredostack.h
     commands/undoredostack.cpp
     texteditor.h
-    texteditor.cpp)
+    texteditor.cpp
+    document.h
+    document.cpp
+    fileutilities.h
+    fileutilities.cpp)
 
 include_directories(../olagarro/tasks/include)
 
