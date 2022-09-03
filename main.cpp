@@ -1,6 +1,3 @@
-#include <cpp-terminal/base.hpp>
-#include <cpp-terminal/input.hpp>
-#include <cpp-terminal/window.hpp>
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -11,28 +8,6 @@ using Term::fg;
 using Term::Key;
 using Term::style;
 using Term::Terminal;
-
-std::vector<std::string> loadFile(const std::string& path)
-{
-    std::ifstream file{path};
-
-    if(not file.is_open())
-    {
-        return {};
-    }
-
-    std::string line;
-    std::vector<std::string> lines;
-
-    while(!file.eof())
-    {
-        std::getline(file, line);
-
-        lines.push_back(line);
-    }
-
-    return lines;
-}
 
 std::string render(Term::Window_24bit& scr, const std::vector<std::string>& lines) {
     scr.clear();

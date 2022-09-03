@@ -3,6 +3,7 @@
 #include <tasks/serial.h>
 #include <tasks/wait.h>
 #include <tasks/execute.h>
+#include <tasks/repeat.h>
 
 #include <chrono>
 #include <thread>
@@ -12,12 +13,26 @@
 using namespace Olagarro::Tasks;
 using namespace std::chrono;
 using namespace std::chrono_literals;
+using Term::bg;
+using Term::fg;
+using Term::Key;
+using Term::style;
+using Term::Terminal;
+using Term::color;
 
 namespace TMSE
 {
 
-TextEditor::TextEditor()
+TextEditor::TextEditor() :
+    mView{mDocument}
 {
+    int rowNumber{}, columNumber{};
+    Term::get_term_size(rowNumber, columNumber);
+
+    std::cout << "Terminal size: " << color(fg::bright_red) << columNumber << color(fg::reset) << "x" << color(fg::bright_red) << rowNumber << color(fg::reset) << "\n";
+
+    mTerminalWindow = std::make_unique<Term::Window>(rowNumber, columNumber);
+
     createTasks();
 }
 
@@ -50,12 +65,18 @@ bool TextEditor::run()
 void TextEditor::createTasks()
 {
     mExecutor.addTask(
-                        serial(
-                            wait(1.0f),
-                            execute([this]()
-                            {
-                                mKeepRunning = false;
-                            })
+                        repeatForever(
+                            serial(
+                                wait(1.0f),
+                                execute([this]()
+                                {
+                                    //mKeepRunning = false;
+                                    int rowNumber{}, columnNumber{};
+                                    Term::get_term_size(rowNumber, columnNumber);
+
+                                    std::cout << "Terminal size: " << color(fg::bright_red) << columnNumber << color(fg::reset) << "x" << color(fg::bright_red) << rowNumber << color(fg::reset) << "\n";
+                                })
+                            )
                         )
                       );
 }

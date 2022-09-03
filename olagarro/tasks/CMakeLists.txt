@@ -14,6 +14,7 @@ add_library(tasks STATIC
   src/earlyexitparallel.cpp
   src/wait.cpp
   src/select.cpp
+  src/repeat.cpp
 
   include/tasks/task.h
   include/tasks/taskexecutor.h
@@ -24,6 +25,7 @@ add_library(tasks STATIC
   include/tasks/wait.h
   include/tasks/select.h
   include/tasks/execute.h
+  include/tasks/repeat.h
 )
 
 include_directories(include)

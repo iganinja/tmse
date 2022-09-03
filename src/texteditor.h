@@ -3,8 +3,13 @@
 
 #include "commands/undoredostack.h"
 #include "document.h"
+#include "view.h"
 
 #include <tasks/taskexecutor.h>
+
+#include <cpp-terminal/base.hpp>
+#include <cpp-terminal/input.hpp>
+#include <cpp-terminal/window.hpp>
 
 
 namespace TMSE
@@ -21,10 +26,14 @@ private:
     void createTasks();
 
     Olagarro::Tasks::TaskExecutor mExecutor;
-    bool mKeepRunning = true;
+    bool mKeepRunning{true};
 
     UndoRedoStack mUndoRedoStack;
-    Document document;
+    Document mDocument;
+    View mView;
+
+    Term::Terminal mTerminal{true, true, false, false};
+    std::unique_ptr<Term::Window> mTerminalWindow;
 };
 
 }
