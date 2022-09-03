@@ -21,16 +21,27 @@ Document loadFile(const std::string& fileName)
     while(!file.eof())
     {
         std::getline(file, line);
+        lines.push_back(line);
+    }
+
+    for(size_t i = 0; i < lines.size() - 1; ++ i)
+    {
+        auto& line = lines[i];
 
         if(line.back() == '\n')
         {
             line.pop_back();
         }
-
-        lines.push_back(line);
     }
 
-    return Document{std::move(lines)};
+    Document document{std::move(lines)};
+
+    if(lines.back().back() == '\n')
+    {
+        document.addLine("");
+    }
+
+    return document;
 }
 
 void saveFile(const std::string& fileName, const Document& document)

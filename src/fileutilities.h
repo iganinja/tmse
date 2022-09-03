@@ -9,8 +9,8 @@
 namespace TMSE
 {
 
-std::vector<std::string> loadFile(const std::string& fileName);
-void saveFile(const std::string& fileName, const std::string& data);
+Document loadFile(const std::string& fileName);
+void saveFile(const std::string& fileName, const Document& document);
 
 }
 

@@ -5,8 +5,8 @@
 namespace TMSE
 {
 
-Document::Document(const std::vector<std::string>& lines) :
-    mLines{lines}
+Document::Document(std::vector<std::string>&& lines) :
+    mLines{std::move(lines)}
 {
 
 }
