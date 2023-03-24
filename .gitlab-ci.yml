@@ -17,15 +17,20 @@ test-project:
   when: always
   artifacts:
     reports:
-      junit: report.xml
+      junit: tests/report.xml
 
 build-project:
   stage: build
+  before_script:
+    - apt-get update && apt-get install -y --no-install-recommends make cmake g++
+    - mkdir -p $HOME/.local
+    - curl -s "https://cmake.org/files/v3.26/cmake-3.26.0-linux-x86_64.tar.gz" | tar --strip-components=1 -xz -C $HOME/.local
+    - export PATH=$HOME/.local/bin:$PATH
   script:
     - mkdir build
     - cd build
     - cmake .. && cmake --build . && make
   artifacts:
     paths:
-      - ./build/TMSE
+      - build/TMSE
 
