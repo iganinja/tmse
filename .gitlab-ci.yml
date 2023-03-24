@@ -17,7 +17,7 @@ test-project:
   when: always
   artifacts:
     reports:
-      junit: tests/report.xml
+      junit: build_tests/report.xml
 
 build-project:
   stage: build
