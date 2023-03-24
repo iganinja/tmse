@@ -14,10 +14,10 @@ test-project:
     - cd build_tests
     - cmake .. && cmake --build . && make
     - ./TMSE_tests --gtest_output="xml:report.xml"
-  artifacts: report.xml
   when: always
-  reports:
-  junit: report.xml
+  artifacts:
+    reports:
+      junit: report.xml
 
 build-project:
   stage: build
