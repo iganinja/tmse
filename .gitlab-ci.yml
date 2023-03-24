@@ -12,7 +12,7 @@ test-project:
   script:
     - mkdir build_tests
     - cd build_tests
-    - cmake .. && cmake --build . && make
+    - cmake ../tests && cmake --build . && make
     - ./TMSE_tests --gtest_output="xml:report.xml"
   when: always
   artifacts:
