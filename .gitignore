@@ -74,3 +74,6 @@ Thumbs.db
 build-tests-Desktop_Qt_6_3_1_MinGW_64_bit-Debug
 CMakeLists.txt.user.cd89e8f
 *.user
+build
+build_tests
+.vscode/tasks.json

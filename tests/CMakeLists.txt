@@ -20,15 +20,15 @@ add_subdirectory(../src ../bin)
 enable_testing()
 
 add_executable(
-  UndoRedoStack
+  TMSE_tests
   undoredostack_tests.cpp
   document_tests.cpp
   view_tests.cpp
 )
-target_link_libraries(UndoRedoStack
+target_link_libraries(TMSE_tests
   PRIVATE GTest::gtest_main
   PRIVATE TextEditor
 )
 
 include(GoogleTest)
-gtest_discover_tests(UndoRedoStack)
+gtest_discover_tests(TMSE_tests)

@@ -5,6 +5,8 @@
 #include <tasks/execute.h>
 #include <tasks/repeat.h>
 
+#include <cpp-terminal/color.hpp>
+
 #include <chrono>
 #include <thread>
 
@@ -13,12 +15,10 @@
 using namespace Olagarro::Tasks;
 using namespace std::chrono;
 using namespace std::chrono_literals;
-using Term::bg;
-using Term::fg;
 using Term::Key;
 using Term::style;
 using Term::Terminal;
-using Term::color;
+using Term::Color;
 
 namespace TMSE
 {
@@ -26,12 +26,11 @@ namespace TMSE
 TextEditor::TextEditor() :
     mView{mDocument}
 {
-    int rowNumber{}, columNumber{};
-    Term::get_term_size(rowNumber, columNumber);
+    const auto size{Term::get_size()};
 
-    std::cout << "Terminal size: " << color(fg::bright_red) << columNumber << color(fg::reset) << "x" << color(fg::bright_red) << rowNumber << color(fg::reset) << "\n";
+    std::cout << "Terminal size: " << color_fg(Term::Color::Name::BrightRed) << size.second << "x" << color_fg(Color::Name::Red) << size.first << "\n";
 
-    mTerminalWindow = std::make_unique<Term::Window>(rowNumber, columNumber);
+    mTerminalWindow = std::make_unique<Term::Window>(size.first, size.second);
 
     createTasks();
 }
@@ -71,10 +70,9 @@ void TextEditor::createTasks()
                                 execute([this]()
                                 {
                                     //mKeepRunning = false;
-                                    int rowNumber{}, columnNumber{};
-                                    Term::get_term_size(rowNumber, columnNumber);
+                                    const auto size{Term::get_size()};
 
-                                    std::cout << "Terminal size: " << color(fg::bright_red) << columnNumber << color(fg::reset) << "x" << color(fg::bright_red) << rowNumber << color(fg::reset) << "\n";
+                                    std::cout << "Terminal size: " << color_fg(Term::Color::Name::BrightRed) << size.second << "x" << color_fg(Color::Name::Red) << size.first << "\n";
                                 })
                             )
                         )

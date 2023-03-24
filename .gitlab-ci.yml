@@ -1,0 +1,26 @@
+stages :
+  - test
+  - build
+
+test-project:
+  stage: test
+  script:
+    - mkdir build_tests
+    - cd build_tests
+    - cmake .. && cmake --build . && make
+    - ./TMSE_tests --gtest_output="xml:report.xml"
+  artifacts: report.xml
+  when: always
+  reports:
+  junit: report.xml
+
+build-project:
+  stage: build
+  script:
+    - mkdir build
+    - cd build
+    - cmake .. && cmake --build . && make
+  artifacts:
+    paths:
+      - ./build/TMSE
+

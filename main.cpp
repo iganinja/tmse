@@ -3,13 +3,14 @@
 #include <vector>
 #include "src/texteditor.h"
 
-using Term::bg;
-using Term::fg;
+#include <cpp-terminal/color.hpp>
+
 using Term::Key;
 using Term::style;
 using Term::Terminal;
+using Term::Color;
 
-std::string render(Term::Window_24bit& scr, const std::vector<std::string>& lines) {
+std::string render(Term::Window& scr, const std::vector<std::string>& lines) {
     scr.clear();
 
     const auto lineNumber = std::min(scr.get_h(), lines.size());
@@ -19,8 +20,8 @@ std::string render(Term::Window_24bit& scr, const std::vector<std::string>& line
     {
         const auto& line = lines[i];
         scr.print_str(1, i + 1, line);
-        scr.fill_bg(1, i + 1, line.length(), i + 1, 0, 0, 0);
-        scr.fill_fg(1, i + 1, line.length(), i + 1, i + i, i * i, i + i);
+        scr.fill_bg(1, i + 1, line.length(), i + 1, Color{0, 0, 0});
+        scr.fill_fg(1, i + 1, line.length(), i + 1, Color{i + i, i * i, i + i});
     }
 
     return scr.render(1, 1, true);

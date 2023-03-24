@@ -10,6 +10,7 @@
 #include <cpp-terminal/base.hpp>
 #include <cpp-terminal/input.hpp>
 #include <cpp-terminal/window.hpp>
+#include <cpp-terminal/terminal.hpp>
 
 
 namespace TMSE
@@ -32,7 +33,7 @@ private:
     Document mDocument;
     View mView;
 
-    Term::Terminal mTerminal{true, true, false, false};
+    Term::Terminal mTerminal{true, true, false};
     std::unique_ptr<Term::Window> mTerminalWindow;
 };
 
