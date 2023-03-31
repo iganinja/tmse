@@ -20,6 +20,21 @@ add_library(TextEditor STATIC
     commands/command.cpp
     commands/undoredostack.h
     commands/undoredostack.cpp
+
+    widgets/widget.h
+    widgets/widget.cpp
+    widgets/layouts.h
+    widgets/layouts.cpp
+    widgets/fillerbox.h
+    widgets/fillerbox.cpp
+    widgets/mainwindow.h
+    widgets/mainwindow.cpp
+    widgets/mainmenu.h
+    widgets/mainmenu.cpp
+
+    utils/vector2d.h
+    utils/size.h
+
     texteditor.h
     texteditor.cpp
     document.h
@@ -28,6 +43,8 @@ add_library(TextEditor STATIC
     fileutilities.cpp
     view.h
     view.cpp)
+
+include_directories(".")
 
 target_link_libraries(TextEditor
   PRIVATE tasks

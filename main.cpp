@@ -1,93 +1,133 @@
+#include "cpp-terminal/base.hpp"
+#include "cpp-terminal/exception.hpp"
+#include "cpp-terminal/input.hpp"
+#include "cpp-terminal/terminal.hpp"
+#include "cpp-terminal/tty.hpp"
+#include "cpp-terminal/window.hpp"
+
+#include "widgets/mainwindow.h"
+
 #include <iostream>
-#include <fstream>
-#include <vector>
-#include "src/texteditor.h"
+#include <thread>
+#include <chrono>
 
-#include <cpp-terminal/color.hpp>
+using namespace std::chrono_literals;
 
-using Term::Key;
-using Term::style;
-using Term::Terminal;
-using Term::Color;
+std::string render(Term::Window& screen, const std::size_t& rows, const std::size_t& cols, const std::size_t& menuheight, const std::size_t& menuwidth, const std::size_t& menupos)
+{
+    screen.clear();
+//    std::size_t menux0 = (cols - menuwidth) / 2 + 1;
+//    std::size_t menuy0 = (rows - menuheight) / 2 + 1;
+//    screen.print_rect(menux0, menuy0, menux0 + menuwidth + 1, menuy0 + menuheight + 1);
 
-std::string render(Term::Window& scr, const std::vector<std::string>& lines) {
-    scr.clear();
+//    for(std::size_t i = 1; i <= menuheight; i++)
+//    {
+//        std::string s = std::to_string(i) + ": item";
+//        screen.print_str(menux0 + 1, menuy0 + i, s);
+//        if(i == menupos)
+//        {
+//            screen.fill_fg(menux0 + 1, menuy0 + i, menux0 + s.size(), menuy0 + i, Term::Color::Name::Red);    // FG
+//            screen.fill_bg(menux0 + 1, menuy0 + i, menux0 + menuwidth, menuy0 + i, Term::Color::Name::Gray);  // BG
+//            screen.fill_style(menux0 + 1, menuy0 + i, menux0 + s.size(), menuy0 + i, Term::Style::BOLD);
+//        }
+//        else
+//        {
+//            screen.fill_fg(menux0 + 1, menuy0 + i, menux0 + s.size(), menuy0 + i, Term::Color::Name::Blue);
+//            screen.fill_bg(menux0 + 1, menuy0 + i, menux0 + menuwidth, menuy0 + i, Term::Color::Name::Green);
+//        }
+//    }
 
-    const auto lineNumber = std::min(scr.get_h(), lines.size());
-    //const auto lineNumber = lines.size();
+//    std::size_t y = menuy0 + menuheight + 5;
+//    screen.print_str(1, y, "Selected item: " + std::to_string(menupos));
+//    screen.print_str(1, y + 1, "Menu width: " + std::to_string(menuwidth));
+//    screen.print_str(1, y + 2, "Menu height: " + std::to_string(menuheight));
+//    screen.print_str(1, y + 3, "Unicode test: Ondřej Čertík, ἐξήκοι");
 
-    for(size_t i = 0; i < lineNumber; ++ i)
-    {
-        const auto& line = lines[i];
-        scr.print_str(1, i + 1, line);
-        scr.fill_bg(1, i + 1, line.length(), i + 1, Color{0, 0, 0});
-        scr.fill_fg(1, i + 1, line.length(), i + 1, Color{i + i, i * i, i + i});
-    }
+    screen.fill_bg(1, 1, 20, 4, Term::Color::Name::Blue);
+    screen.fill_fg(1, 1, 20, 4, Term::Color::Name::BrightYellow);
+    screen.fill_bg(1, 1, 50, 1, Term::Color::Name::Red);
+    screen.print_rect(1, 1, 20, 4);
+    screen.print_str(3, 2, "Hola qué tal");
 
-    return scr.render(1, 1, true);
+    return screen.render(1, 1, true);
 }
 
 int main()
 {
-    TMSE::TextEditor editor;
+    try
+    {
+        // check if the terminal is capable of handling input
+        if(!Term::is_stdin_a_tty())
+        {
+            std::cout << "The terminal is not attached to a TTY and therefore can't catch user input. Exiting...\n";
+            return 1;
+        }
+        Term::Terminal                      term(true, true, true);
+        std::pair<std::size_t, std::size_t> term_size = Term::get_size();
+        int                                 pos       = 5;
+        int                                 h         = 10;
+        std::size_t                         w{10};
+        bool                                on = true;
+        auto screen{std::make_unique<Term::Window>(std::get<1>(term_size), std::get<0>(term_size))};
 
-    return editor.run();
-//    try {
-//        // check if the terminal is capable of handling input
-//        if (!Term::is_stdin_a_tty()) {
-//            std::cout << "The terminal is not attached to a TTY and therefore "
-//                         "can't catch user input. Exiting...\n";
-//            return 1;
-//        }
-//        Terminal term(true, true, false, false);
-//        int rows{}, cols{};
-//        Term::get_term_size(rows, cols);
-//        int pos = 5;
-//        int h = 10;
-//        int w = 10;
-//        bool on = true;
-//        Term::Window_24bit scr(cols, rows);
+        Widgets::MainWindow mainWindow;
 
-//        const auto lines = loadFile("main.cpp");
+        Utils::Size lastSize{std::get<1>(term_size), std::get<0>(term_size)};
 
-//        while (on) {
-//            std::cout << render(scr, lines) << std::flush;
-//            int key = Term::read_key();
-//            switch (key) {
-//                case Key::ARROW_LEFT:
-//                    if (w > 10)
-//                        w--;
-//                    break;
-//                case Key::ARROW_RIGHT:
-//                    if (w < cols - 5)
-//                        w++;
-//                    break;
-//                case Key::ARROW_UP:
-//                    if (pos > 1)
-//                        pos--;
-//                    break;
-//                case Key::ARROW_DOWN:
-//                    if (pos < h)
-//                        pos++;
-//                    break;
-//                case Key::HOME:
-//                    pos = 1;
-//                    break;
-//                case Key::END:
-//                    pos = h;
-//                    break;
-//                case 'q':
-//                case Key::ESC:
-//                    on = false;
-//                    break;
-//            }
-//        }
-//    } catch (const std::runtime_error& re) {
-//        std::cerr << "Runtime error: " << re.what() << std::endl;
-//        return 2;
-//    } catch (...) {
-//        std::cerr << "Unknown error." << std::endl;
-//        return 1;
-//    }
-//    return 0;
+        mainWindow.onResize(lastSize.x(), lastSize.y());
+
+        while(on)
+        {
+            screen->clear();
+
+            mainWindow.draw(*screen);
+
+            std::cout << screen->render(1, 1, true) << std::flush;
+
+            int key = Term::read_key0();
+            switch(key)
+            {
+            case Term::Key::ARROW_LEFT:
+                if(w > 10) w--;
+                break;
+            case Term::Key::ARROW_RIGHT:
+                if(w < std::get<1>(term_size) - 5) w++;
+                break;
+            case Term::Key::ARROW_UP:
+                if(pos > 1) pos--;
+                break;
+            case Term::Key::ARROW_DOWN:
+                if(pos < h) pos++;
+                break;
+            case Term::Key::HOME: pos = 1; break;
+            case Term::Key::END: pos = h; break;
+            case 'q':
+            case Term::Key::ESC:
+            case Term::Key::CTRL + 'c': on = false; break;
+            }
+
+            std::this_thread::sleep_for(50ms);
+
+            auto currentTermSize{Term::get_size()};
+            const Utils::Size currentSize{std::get<1>(currentTermSize), std::get<0>(currentTermSize)};
+
+            if(lastSize != currentSize)
+            {
+                screen = std::make_unique<Term::Window>(currentSize.x(), currentSize.y());
+                mainWindow.onResize(currentSize.x(), currentSize.y());
+                lastSize = currentSize;
+            }
+        }
+    }
+    catch(const Term::Exception& re)
+    {
+        std::cout << "cpp-terminal error: " << re.what() << std::endl;
+        return 2;
+    }
+    catch(...)
+    {
+        std::cout << "Unknown error." << std::endl;
+        return 1;
+    }
+    return 0;
 }
