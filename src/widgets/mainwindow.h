@@ -2,6 +2,7 @@
 
 #include "widget.h"
 #include "fillerbox.h"
+#include "mainmenu.h"
 
 namespace Widgets
 {
@@ -15,6 +16,7 @@ private:
     void widgetDraw(Term::Window& window) override;
     void widgetOnResize(std::size_t newWidth, std::size_t newHeight) override;
 
+    MainMenu mMainMenu;
     FillerBox mFillerBox;
 };
 

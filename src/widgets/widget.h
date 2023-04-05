@@ -15,6 +15,7 @@ public:
 
     void draw(Term::Window& window);
     void setPosition(Utils::Position newPosition);
+    void setPosition(int newX, int newY);
     void onResize(std::size_t newWidth, std::size_t newHeight);
 
     Utils::Position position() const;
@@ -32,6 +33,7 @@ public:
 
 protected:
     virtual void widgetDraw(Term::Window& window);
+    virtual void widgetOnReposition(Utils::Position newPosition);
     virtual void widgetOnResize(std::size_t newWidth, std::size_t newHeight);
 
     Utils::Position mPosition{1, 1};

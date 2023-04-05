@@ -5,6 +5,7 @@
 #include "cpp-terminal/tty.hpp"
 #include "cpp-terminal/window.hpp"
 
+#include "settings.h"
 #include "widgets/mainwindow.h"
 
 #include <iostream>
@@ -62,17 +63,20 @@ int main()
             std::cout << "The terminal is not attached to a TTY and therefore can't catch user input. Exiting...\n";
             return 1;
         }
-        Term::Terminal                      term(true, true, true);
+
+        loadSettings();
+
+        Term::Terminal                      terminal{true, true, true};
         std::pair<std::size_t, std::size_t> term_size = Term::get_size();
         int                                 pos       = 5;
         int                                 h         = 10;
         std::size_t                         w{10};
         bool                                on = true;
-        auto screen{std::make_unique<Term::Window>(std::get<1>(term_size), std::get<0>(term_size))};
-
-        Widgets::MainWindow mainWindow;
 
         Utils::Size lastSize{std::get<1>(term_size), std::get<0>(term_size)};
+        auto screen{std::make_unique<Term::Window>(lastSize.x(), lastSize.y())};
+
+        Widgets::MainWindow mainWindow;
 
         mainWindow.onResize(lastSize.x(), lastSize.y());
 
@@ -106,7 +110,7 @@ int main()
             case Term::Key::CTRL + 'c': on = false; break;
             }
 
-            std::this_thread::sleep_for(50ms);
+            std::this_thread::sleep_for(100ms);
 
             auto currentTermSize{Term::get_size()};
             const Utils::Size currentSize{std::get<1>(currentTermSize), std::get<0>(currentTermSize)};

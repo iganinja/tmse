@@ -31,9 +31,20 @@ add_library(TextEditor STATIC
     widgets/mainwindow.cpp
     widgets/mainmenu.h
     widgets/mainmenu.cpp
+    widgets/mainmenuitem.h
+    widgets/mainmenuitem.cpp
+    widgets/menulist.h
+    widgets/menulist.cpp
 
     utils/vector2d.h
     utils/size.h
+    utils/terminalutils.h
+    utils/terminalutils.cpp
+
+    settings.h
+    settings.cpp
+    localization.h
+    localization.cpp
 
     texteditor.h
     texteditor.cpp
