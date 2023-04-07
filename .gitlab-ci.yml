@@ -40,8 +40,6 @@ stages :
 
 
 build-project-linux-rpi3_64:
- image: gitlab/dind
-
  services:
   - docker:dind
 
