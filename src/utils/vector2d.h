@@ -30,11 +30,11 @@ public:
     }
     bool operator == (const Vector2D<T> other) const
     {
-        return x() == other.x() and y() == other.y();
+        return x() == other.x() && y() == other.y();
     }
     bool operator != (const Vector2D<T> other) const
     {
-        return x() != other.x() or y() != other.y();
+        return x() != other.x() || y() != other.y();
     }
 
 private:

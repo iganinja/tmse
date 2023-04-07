@@ -33,7 +33,7 @@ public:
     {
         bool operator == (const DocumentCursorPosition& other) const
         {
-            return row == other.row and column == other.column;
+            return row == other.row && column == other.column;
         }
         size_t row;
         size_t column;
@@ -45,9 +45,9 @@ public:
     {
         bool operator == (const RenderWindow& other) const
         {
-            return row == other.row and
-                    column == other.column and
-                    width == other.width and
+            return row == other.row &&
+                    column == other.column &&
+                    width == other.width &&
                     height == other.height;
         }
         size_t row;
