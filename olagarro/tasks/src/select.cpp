@@ -13,7 +13,7 @@ public:
     {
         for(auto& pair : taskPairs)
         {
-            if(not pair.first or not pair.second)
+            if(!pair.first || !pair.second)
             {
                 continue;
             }

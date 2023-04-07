@@ -50,7 +50,7 @@ std::string Task::tree() const
 
     std::string resultingTree;
 
-    while(not stack.empty())
+    while(!stack.empty())
     {
         const auto entry = stack.top();
         stack.pop();

@@ -91,7 +91,7 @@ int main()
 
             auto keyEvent{Term::Platform::read_raw()};
 
-            if(not keyEvent.empty())
+            if(!keyEvent.empty())
             {
                 const std::int32_t key{keyEvent.getKey()};
                 switch(key)

@@ -10,7 +10,7 @@ Document loadFile(const std::string& fileName)
 {
     std::ifstream file{fileName};
 
-    if(not file.is_open())
+    if(!file.is_open())
     {
         throw std::runtime_error{"Can't open " + fileName + " file for reading"};
     }
@@ -48,7 +48,7 @@ void saveFile(const std::string& fileName, const Document& document)
 {
     std::ofstream file{fileName};
 
-    if(not file.is_open())
+    if(!file.is_open())
     {
         throw std::runtime_error{"Can't open " + fileName + " file for saving"};
     }

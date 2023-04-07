@@ -18,7 +18,7 @@ public:
 
         for(auto&& task : tasks)
         {
-            if(not task)
+            if(!task)
             {
                 continue;
             }

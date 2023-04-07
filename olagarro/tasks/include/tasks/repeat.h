@@ -43,7 +43,7 @@ protected:
 
         if(result == State::Finished)
         {
-            if(not mPredicate())
+            if(!mPredicate())
             {
                 return State::Finished;
             }
