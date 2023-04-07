@@ -3,9 +3,6 @@ stages :
   - build
 
 test-project-linux-x86_64:
-  tags:
-    - "linux"
-    - "saas-linux-medium-amd64"
   stage: test
   before_script:
     - apt-get update && apt-get install -y --no-install-recommends make cmake g++
