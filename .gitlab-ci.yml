@@ -58,10 +58,11 @@ build-project-linux-rpi3_64:
    - cd RPi-Cpp-Toolchain
    - ./docker-arm-cross-build-scripts/build.sh rpi3-aarch64 --pull --export
    - cd ..
+   - ls -la RPi-Cpp-Toolchain/docker-arm-cross-build-scripts
  script:
    - mkdir build_rpi3
    - cd build_rpi3
-   - cmake .. -DCMAKE_TOOLCHAIN_FILE=../../RPi-Cpp-Toolchain/cmake/aarch64-rpi3-linux-gnu.cmake -DCMAKE_BUILD_TYPE=Release && cmake --build . && make
+   - cmake .. -DCMAKE_TOOLCHAIN_FILE=../RPi-Cpp-Toolchain/cmake/aarch64-rpi3-linux-gnu.cmake -DCMAKE_BUILD_TYPE=Release && cmake --build . && make
  artifacts:
    paths:
      - build_rpi3/TMSE
