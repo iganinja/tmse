@@ -58,7 +58,7 @@ private:
 
 TaskUP makeSelect(std::vector<TaskPair>&& taskPairs)
 {
-
+    return nullptr;
 }
 
 }
