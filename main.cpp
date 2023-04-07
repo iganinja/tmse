@@ -4,6 +4,7 @@
 #include "cpp-terminal/terminal.hpp"
 #include "cpp-terminal/tty.hpp"
 #include "cpp-terminal/window.hpp"
+#include "cpp-terminal/options.hpp"
 
 #include "settings.h"
 #include "widgets/mainwindow.h"
@@ -66,7 +67,7 @@ int main()
 
         loadSettings();
 
-        Term::Terminal                      terminal{true, true, true};
+        Term::Terminal                      terminal{{Term::Options::Option::ClearScreen, Term::Options::Option::Cursor, Term::Options::Option::NoSignalKeys}};
         std::pair<std::size_t, std::size_t> term_size = Term::get_size();
         int                                 pos       = 5;
         int                                 h         = 10;
@@ -88,26 +89,31 @@ int main()
 
             std::cout << screen->render(1, 1, true) << std::flush;
 
-            int key = Term::read_key0();
-            switch(key)
+            auto keyEvent{Term::Platform::read_raw()};
+
+            if(not keyEvent.empty())
             {
-            case Term::Key::ARROW_LEFT:
-                if(w > 10) w--;
-                break;
-            case Term::Key::ARROW_RIGHT:
-                if(w < std::get<1>(term_size) - 5) w++;
-                break;
-            case Term::Key::ARROW_UP:
-                if(pos > 1) pos--;
-                break;
-            case Term::Key::ARROW_DOWN:
-                if(pos < h) pos++;
-                break;
-            case Term::Key::HOME: pos = 1; break;
-            case Term::Key::END: pos = h; break;
-            case 'q':
-            case Term::Key::ESC:
-            case Term::Key::CTRL + 'c': on = false; break;
+                const std::int32_t key{keyEvent.getKey()};
+                switch(key)
+                {
+                case Term::Key::ARROW_LEFT:
+                    if(w > 10) w--;
+                    break;
+                case Term::Key::ARROW_RIGHT:
+                    if(w < std::get<1>(term_size) - 5) w++;
+                    break;
+                case Term::Key::ARROW_UP:
+                    if(pos > 1) pos--;
+                    break;
+                case Term::Key::ARROW_DOWN:
+                    if(pos < h) pos++;
+                    break;
+                case Term::Key::HOME: pos = 1; break;
+                case Term::Key::END: pos = h; break;
+                case 'q':
+                case Term::Key::ESC:
+                case Term::Key::CTRL + 'c': on = false; break;
+                }
             }
 
             std::this_thread::sleep_for(100ms);
