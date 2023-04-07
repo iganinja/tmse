@@ -40,9 +40,12 @@ stages :
 
 
 build-project-linux-rpi3_64:
+ image: docker:19.03.0
+ variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
  services:
-  - docker:dind
-
+  - docker:19.03.0-dind
  tags:
    - "docker"
  stage: build
