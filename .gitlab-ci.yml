@@ -42,6 +42,7 @@ stages :
 build-project-linux-rpi3_64:
  tags:
    - "linux"
+   - "docker"
  stage: build
  before_script:
    - apt-get update && apt-get install -y --no-install-recommends make cmake g++
