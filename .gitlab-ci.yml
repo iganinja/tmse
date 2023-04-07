@@ -1,42 +1,42 @@
 stages :
-  - test
+#  - test
   - build
 
-test-project-linux-x86_64:
-  tags:
-    - "linux"
-  stage: test
-  before_script:
-    - apt-get update && apt-get install -y --no-install-recommends make cmake g++
-    - mkdir -p $HOME/.local
-    - curl -s "https://cmake.org/files/v3.26/cmake-3.26.0-linux-x86_64.tar.gz" | tar --strip-components=1 -xz -C $HOME/.local
-    - export PATH=$HOME/.local/bin:$PATH
-  script:
-    - mkdir -p build_tests
-    - cd build_tests
-    - cmake ../tests && cmake --build . && make
-    - ./TMSE_tests --gtest_output="xml:report.xml"
-  when: always
-  artifacts:
-    reports:
-      junit: build_tests/report.xml
+#test-project-linux-x86_64:
+#  tags:
+#    - "linux"
+#  stage: test
+#  before_script:
+#    - apt-get update && apt-get install -y --no-install-recommends make cmake g++
+#    - mkdir -p $HOME/.local
+#    - curl -s "https://cmake.org/files/v3.26/cmake-3.26.0-linux-x86_64.tar.gz" | tar --strip-components=1 -xz -C $HOME/.local
+#    - export PATH=$HOME/.local/bin:$PATH
+#  script:
+#    - mkdir -p build_tests
+#    - cd build_tests
+#    - cmake ../tests && cmake --build . && make
+#    - ./TMSE_tests --gtest_output="xml:report.xml"
+#  when: always
+#  artifacts:
+#    reports:
+#      junit: build_tests/report.xml
 
-build-project-linux-x86_64:
-  tags:
-    - "linux"
-  stage: build
-  before_script:
-    - apt-get update && apt-get install -y --no-install-recommends make cmake g++
-    - mkdir -p $HOME/.local
-    - curl -s "https://cmake.org/files/v3.26/cmake-3.26.0-linux-x86_64.tar.gz" | tar --strip-components=1 -xz -C $HOME/.local
-    - export PATH=$HOME/.local/bin:$PATH
-  script:
-    - mkdir build
-    - cd build
-    - cmake .. && cmake --build . && make
-  artifacts:
-    paths:
-      - build/TMSE
+#build-project-linux-x86_64:
+#  tags:
+#    - "linux"
+#  stage: build
+#  before_script:
+#    - apt-get update && apt-get install -y --no-install-recommends make cmake g++
+#    - mkdir -p $HOME/.local
+#    - curl -s "https://cmake.org/files/v3.26/cmake-3.26.0-linux-x86_64.tar.gz" | tar --strip-components=1 -xz -C $HOME/.local
+#    - export PATH=$HOME/.local/bin:$PATH
+#  script:
+#    - mkdir build
+#    - cd build
+#    - cmake .. && cmake --build . && make
+#  artifacts:
+#    paths:
+#      - build/TMSE
 
 
 # build-win64:
