@@ -39,31 +39,36 @@ stages :
 #      - build/TMSE
 
 
-# build-win64:
-#   tags:
-#     - "windows"
-#   stage: build
-#   script:
-#     - echo $RT_VERSION
-#     - mkdir build 
-#     - cd build
-#     - cmake ../ -G "Visual Studio 16 2019" -DRELEASE_VERSION="$RT_VERSION" -DCMAKE_BUILD_TYPE=Release
-#     - cmake --build . --config Release --target package
-#   artifacts:
-#     name: "raytracing-$RT_VERSION.zip"
-#     paths:
-#       - build/raytracing-$RT_VERSION-win64.7z
-#     expire_in: 24 hours
+build-project-linux-rpi3_64:
+ tags:
+   - "linux"
+ stage: build
+ before_script:
+   - apt-get update && apt-get install -y --no-install-recommends make cmake g++
+   - mkdir -p $HOME/.local
+   - curl -s "https://cmake.org/files/v3.26/cmake-3.26.0-linux-x86_64.tar.gz" | tar --strip-components=1 -xz -C $HOME/.local
+   - export PATH=$HOME/.local/bin:$PATH
+   - git clone --recursive https://github.com/tttapa/RPi-Cpp-Toolchain.git
+   - cd RPi-Cpp-Toolchain
+   - ./docker-arm-cross-build-scripts/build.sh rpi3-aarch64 --pull --export
+   - cd ..
+ script:
+   - mkdir build_rpi3
+   - cd build_rpi3
+   - cmake .. -DCMAKE_TOOLCHAIN_FILE=../../RPi-Cpp-Toolchain/cmake/aarch64-rpi3-linux-gnu.cmake -DCMAKE_BUILD_TYPE=Release && cmake --build . && make
+ artifacts:
+   paths:
+     - build_rpi3/TMSE
 
-build-win64:
-  tags:
-    - "windows"
-  stage: build
-  script:
-    - mkdir build 
-    - cd build
-    - cmake ../ -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE=Release
-    - cmake --build . --config Release --target TMSE
-  artifacts:
-    paths:
-      - build/Release/TMSE.exe
+#build-win64:
+#  tags:
+#    - "windows"
+#  stage: build
+#  script:
+#    - mkdir build 
+#    - cd build
+#    - cmake ../ -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE=Release
+#    - cmake --build . --config Release --target TMSE
+#  artifacts:
+#    paths:
+#      - build/TMSE.exe
