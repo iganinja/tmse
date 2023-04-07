@@ -66,4 +66,4 @@ build-win64:
     - cmake --build . --config Release --target TMSE
   artifacts:
     paths:
-      - build/TMSE.exe
+      - build/Release/TMSE.exe
