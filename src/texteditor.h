@@ -11,6 +11,7 @@
 #include <cpp-terminal/input.hpp>
 #include <cpp-terminal/window.hpp>
 #include <cpp-terminal/terminal.hpp>
+#include <cpp-terminal/options.hpp>
 
 
 namespace TMSE
@@ -33,7 +34,7 @@ private:
     Document mDocument;
     View mView;
 
-    Term::Terminal mTerminal{true, true, false};
+    Term::Terminal mTerminal{{Term::Options::Option::ClearScreen, Term::Options::Option::Cursor, Term::Options::Option::NoSignalKeys}};
     std::unique_ptr<Term::Window> mTerminalWindow;
 };
 
