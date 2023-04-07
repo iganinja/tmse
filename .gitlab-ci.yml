@@ -50,7 +50,7 @@ build-project-linux-rpi3_64:
    - "docker"
  stage: build
  before_script:
-   - apt-get update && apt-get install -y --no-install-recommends make cmake g++
+   - apk update && apk add make cmake g++ curl git
    - mkdir -p $HOME/.local
    - curl -s "https://cmake.org/files/v3.26/cmake-3.26.0-linux-x86_64.tar.gz" | tar --strip-components=1 -xz -C $HOME/.local
    - export PATH=$HOME/.local/bin:$PATH
