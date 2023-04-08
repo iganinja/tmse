@@ -59,6 +59,7 @@ build-project-linux-rpi3_64:
    - ./docker-arm-cross-build-scripts/build.sh rpi3-aarch64 --pull --export
    - cd ..
    - ls -la RPi-Cpp-Toolchain/docker-arm-cross-build-scripts
+   - pwd
    - RPi-Cpp-Toolchain/docker-arm-cross-build-scripts/x-tools/aarch64-rpi3-linux-gnu/bin/aarch64-rpi3-linux-gnu-g++
  script:
    - mkdir build_rpi3
