@@ -49,7 +49,7 @@ build-project-linux-rpi3_64:
  tags:
    - "docker"
  stage: build
- before_script:
+ script:
    - apk update && apk add make cmake g++ curl git bash
    - mkdir -p $HOME/.local
 #   - curl -s "https://cmake.org/files/v3.26/cmake-3.26.0-linux-x86_64.tar.gz" | tar --strip-components=1 -xz -C $HOME/.local
@@ -63,7 +63,7 @@ build-project-linux-rpi3_64:
    - ls -la RPi-Cpp-Toolchain/docker-arm-cross-build-scripts/x-tools/aarch64-rpi3-linux-gnu/bin/
    - RPi-Cpp-Toolchain/docker-arm-cross-build-scripts/x-tools/aarch64-rpi3-linux-gnu/bin/aarch64-rpi3-linux-gnu-g++ --version
    - echo Pero que pasa aqui
- script:
+ #script:
    - mkdir build_rpi3
    - cd build_rpi3
    - cmake .. -DCMAKE_TOOLCHAIN_FILE=./RPi-Cpp-Toolchain/cmake/aarch64-rpi3-linux-gnu.cmake -DCMAKE_BUILD_TYPE=Release && cmake --build . && make
