@@ -93,7 +93,7 @@ int main()
 
             if(!keyEvent.empty())
             {
-                const std::int32_t key{keyEvent.getKey()};
+                const std::int32_t key{Term::Key{keyEvent}};
                 switch(key)
                 {
                 case Term::Key::ARROW_LEFT:

@@ -13,6 +13,7 @@ FetchContent_GetProperties(terminalcpp)
 if(NOT terminalcpp_POPULATED)
   FetchContent_Populate(terminalcpp)
   add_subdirectory(${terminalcpp_SOURCE_DIR} ${terminalcpp_BINARY_DIR} EXCLUDE_FROM_ALL)
+  include_directories(${terminalcpp_SOURCE_DIR})
 endif()
 
 add_library(TextEditor STATIC

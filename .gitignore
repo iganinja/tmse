@@ -77,3 +77,4 @@ CMakeLists.txt.user.cd89e8f
 build
 build_tests
 .vscode/tasks.json
+bin
