@@ -50,7 +50,7 @@ build-project-linux-rpi3_64:
    - "docker"
  stage: build
  script:
-   - apk update && apk add make cmake g++ curl git bash build-base gcompat
+   - apk update && apk add make cmake g++ curl git bash build-base gcompat flatpak
    - mkdir -p $HOME/.local
    - export PATH=$HOME/.local/bin:$PATH
    - git clone --recursive https://github.com/tttapa/RPi-Cpp-Toolchain.git
@@ -63,7 +63,7 @@ build-project-linux-rpi3_64:
    - echo Pero que pasa aqui 1
    - ls -la RPi-Cpp-Toolchain/docker-arm-cross-build-scripts/x-tools/aarch64-rpi3-linux-gnu/bin/aarch64-rpi3-linux-gnu-g++
    - ldd RPi-Cpp-Toolchain/docker-arm-cross-build-scripts/x-tools/aarch64-rpi3-linux-gnu/bin/aarch64-rpi3-linux-gnu-g++
-   - RPi-Cpp-Toolchain/docker-arm-cross-build-scripts/x-tools/aarch64-rpi3-linux-gnu/bin/aarch64-rpi3-linux-gnu-g++ --version
+   - flatpak run RPi-Cpp-Toolchain/docker-arm-cross-build-scripts/x-tools/aarch64-rpi3-linux-gnu/bin/aarch64-rpi3-linux-gnu-g++ --version
    - echo Pero que pasa aqui 2
  #script:
    - mkdir build_rpi3
