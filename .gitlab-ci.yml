@@ -61,7 +61,8 @@ build-project-linux-rpi3_64:
    - ls -la RPi-Cpp-Toolchain/docker-arm-cross-build-scripts
    - pwd
    - ls -la RPi-Cpp-Toolchain/docker-arm-cross-build-scripts/x-tools/aarch64-rpi3-linux-gnu/bin/
-   - RPi-Cpp-Toolchain/docker-arm-cross-build-scripts/x-tools/aarch64-rpi3-linux-gnu/bin/aarch64-rpi3-linux-gnu-g++
+   - RPi-Cpp-Toolchain/docker-arm-cross-build-scripts/x-tools/aarch64-rpi3-linux-gnu/bin/aarch64-rpi3-linux-gnu-g++ --version
+   - echo Pero que pasa aqui
  script:
    - mkdir build_rpi3
    - cd build_rpi3
