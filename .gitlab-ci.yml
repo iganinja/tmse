@@ -44,7 +44,7 @@ build-project-linux-rpi3_64:
  stage: build
  script:
    - apt-get update
-   - apt-get install -y build-essential cmake
+   - apt-get install -y build-essential cmake git
 
  #script:
    - mkdir build_rpi3
