@@ -40,35 +40,16 @@ stages :
 
 
 build-project-linux-rpi3_64:
- image: docker:19.03.0
- variables:
-  DOCKER_DRIVER: overlay2
-  DOCKER_TLS_CERTDIR: ""
- services:
-  - docker:19.03.0-dind
- tags:
-   - "docker"
+ image: balenalib/raspberry-pi3-debian
  stage: build
  script:
-   - apk update && apk add make cmake g++ curl git bash build-base gcompat flatpak
-   - mkdir -p $HOME/.local
-   - export PATH=$HOME/.local/bin:$PATH
-   - git clone --recursive https://github.com/tttapa/RPi-Cpp-Toolchain.git
-   - cd RPi-Cpp-Toolchain
-   - ./docker-arm-cross-build-scripts/build.sh rpi3-aarch64 --pull --export
-   - cd ..
-   - ls -la RPi-Cpp-Toolchain/docker-arm-cross-build-scripts
-   - pwd
-   - ls -la RPi-Cpp-Toolchain/docker-arm-cross-build-scripts/x-tools/aarch64-rpi3-linux-gnu/bin/
-   - echo Pero que pasa aqui 1
-   - ls -la RPi-Cpp-Toolchain/docker-arm-cross-build-scripts/x-tools/aarch64-rpi3-linux-gnu/bin/aarch64-rpi3-linux-gnu-g++
-   - flatpak run RPi-Cpp-Toolchain/docker-arm-cross-build-scripts/x-tools/aarch64-rpi3-linux-gnu/bin/aarch64-rpi3-linux-gnu-g++ --version
-   - ldd RPi-Cpp-Toolchain/docker-arm-cross-build-scripts/x-tools/aarch64-rpi3-linux-gnu/bin/aarch64-rpi3-linux-gnu-g++
-   - echo Pero que pasa aqui 2
+   - apt-get update
+   - apt-get install -y build-essential cmake
+
  #script:
    - mkdir build_rpi3
    - cd build_rpi3
-   - cmake .. -DCMAKE_TOOLCHAIN_FILE=./RPi-Cpp-Toolchain/cmake/aarch64-rpi3-linux-gnu.cmake -DCMAKE_BUILD_TYPE=Release && cmake --build . && make
+   - cmake .. && cmake --build . && make
  artifacts:
    paths:
      - build_rpi3/TMSE
