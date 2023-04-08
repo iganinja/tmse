@@ -50,7 +50,7 @@ build-project-linux-rpi3_64:
    - "docker"
  stage: build
  script:
-   - apk update && apk add make cmake g++ curl git bash libc6-compat
+   - apk update && apk add make cmake g++ curl git bash build-base gcompat
    - mkdir -p $HOME/.local
    - export PATH=$HOME/.local/bin:$PATH
    - git clone --recursive https://github.com/tttapa/RPi-Cpp-Toolchain.git
