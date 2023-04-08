@@ -40,7 +40,7 @@ stages :
 
 
 build-project-linux-rpi3_64:
- image: balenalib/raspberry-pi
+ image: balenalib/raspberry-pi3:latest
  stage: build
  script:
    - apt-get update
