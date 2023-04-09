@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.5)
 
 include_directories(../olagarro/tasks/include)
-add_subdirectory(../olagarro/tasks ./lib)
+add_subdirectory(../olagarro/tasks ./tasks_lib)
+
+include_directories(../olagarro/cttasks/include)
+add_subdirectory(../olagarro/cttasks ./cttasks_lib)
 
 include(FetchContent)
 
@@ -41,20 +44,18 @@ add_library(TextEditor STATIC
     utils/size.h
     utils/terminalutils.h
     utils/terminalutils.cpp
+    utils/exception.h
+    utils/exception.cpp
 
     settings.h
     settings.cpp
     localization.h
     localization.cpp
 
-    texteditor.h
-    texteditor.cpp
     document.h
     document.cpp
     fileutilities.h
-    fileutilities.cpp
-    view.h
-    view.cpp)
+    fileutilities.cpp)
 
 include_directories(".")
 

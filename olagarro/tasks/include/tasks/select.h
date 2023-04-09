@@ -8,15 +8,26 @@ namespace Olagarro
 namespace Tasks
 {
 
-using TaskPair = std::pair<TaskUP, TaskUP>;
-
-TaskUP makeSelect(std::vector<TaskPair>&& taskPairs);
-
-template<typename... TaskPairs>
-TaskUP select(TaskPairs&&... taskPairs)
+struct SelectEntry
 {
-    TaskUP tasksArray[] = {std::move(taskPairs)...};
-    return makeSelect(std::vector<TaskPair>{std::make_move_iterator(std::begin(tasksArray)), std::make_move_iterator(std::end(tasksArray))});
+    SelectEntry(TaskUP&& predicate, TaskUP&& task) :
+        predicate{std::move(predicate)}, task{std::move(task)}
+    {}
+
+    TaskUP predicate;
+    TaskUP task;
+};
+
+namespace Implementation
+{
+TaskUP makeSelect(std::vector<SelectEntry>&& entries);
+}
+
+template<typename... SelectEntries>
+TaskUP select(SelectEntries&&... selectEntries)
+{
+    SelectEntry entries[] = {std::move(selectEntries)...};
+    return Implementation::makeSelect(std::vector<SelectEntry>{std::make_move_iterator(std::begin(entries)), std::make_move_iterator(std::end(entries))});
 }
 
 }

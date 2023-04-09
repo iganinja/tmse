@@ -8,17 +8,17 @@ namespace Tasks
 class Select : public Task
 {
 public:
-    Select(std::vector<TaskPair>&& taskPairs) :
+    Select(std::vector<SelectEntry>&& entries) :
         Task{"Select"}
     {
-        for(auto& pair : taskPairs)
+        for(auto& entry : entries)
         {
-            if(!pair.first || !pair.second)
+            if(not entry.task)
             {
                 continue;
             }
 
-            mTaskPairs.push_back(std::move(pair));
+            mEntries.push_back(std::move(entry));
         }
     }
 
@@ -26,9 +26,9 @@ public:
     {
         mCurrentTask = nullptr;
 
-        for(auto& pair : mTaskPairs)
+        for(auto& entry : mEntries)
         {
-            pair.first->onAboutToStart();
+            entry.predicate->onAboutToStart();
         }
     }
 
@@ -39,11 +39,11 @@ public:
             return mCurrentTask->update(deltaTime);
         }
 
-        for(auto& pair : mTaskPairs)
+        for(auto& entry : mEntries)
         {
-            if(pair.first->update(deltaTime) == State::Finished)
+            if(entry.predicate->update(deltaTime) == State::Finished)
             {
-                mCurrentTask = pair.second.get();
+                mCurrentTask = entry.task.get();
                 mCurrentTask->onAboutToStart();
             }
         }
@@ -52,13 +52,16 @@ public:
     }
 
 private:
-    std::vector<TaskPair> mTaskPairs;
-    Task* mCurrentTask = nullptr;
+    std::vector<SelectEntry> mEntries;
+    Task* mCurrentTask{nullptr};
 };
 
-TaskUP makeSelect(std::vector<TaskPair>&& taskPairs)
+namespace Implementation
 {
-    return nullptr;
+TaskUP makeSelect(std::vector<SelectEntry>&& entries)
+{
+    return std::make_unique<Select>(std::move(entries));
+}
 }
 
 }

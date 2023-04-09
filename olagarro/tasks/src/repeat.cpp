@@ -31,9 +31,7 @@ private:
 
 TaskUP repeat(TaskUP&& task, size_t times)
 {
-
-
-    return repeatWhile(std::move(task), Counter{times});
+    return repeatWhile(Counter{times}, std::move(task));
 }
 
 TaskUP repeatForever(TaskUP&& task)
@@ -43,7 +41,7 @@ TaskUP repeatForever(TaskUP&& task)
         return true;
     };
 
-    return repeatWhile(std::move(task), forever);
+    return repeatWhile(forever, std::move(task));
 }
 
 }

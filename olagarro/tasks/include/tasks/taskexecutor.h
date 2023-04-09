@@ -20,7 +20,6 @@ public:
     void update(float deltaTime);
 
 private:
-
     std::vector<TaskUP> mTasks;
 };
 

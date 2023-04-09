@@ -18,7 +18,7 @@ public:
 
         for(auto&& task : tasks)
         {
-            if(!task)
+            if(not task)
             {
                 continue;
             }
@@ -43,7 +43,7 @@ public:
             return State::Finished;
         }
 
-        std::size_t finishedTasksCount = 0;
+        std::size_t finishedTasksCount{0};
 
         for(auto& taskEntry : mTasks)
         {

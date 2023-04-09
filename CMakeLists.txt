@@ -22,6 +22,7 @@ if(NOT terminalcpp_POPULATED)
 endif()
 
 include_directories(./olagarro/tasks/include)
+include_directories(./olagarro/cttasks/include)
 
 add_subdirectory(src)
 include_directories(src)

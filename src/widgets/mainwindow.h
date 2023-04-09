@@ -3,6 +3,9 @@
 #include "widget.h"
 #include "fillerbox.h"
 #include "mainmenu.h"
+#include "cttasks/taskexecutor.h"
+
+#include <memory>
 
 namespace Widgets
 {
@@ -18,6 +21,8 @@ private:
 
     MainMenu mMainMenu;
     FillerBox mFillerBox;
+
+    std::unique_ptr<Olagarro::CTTasks::TaskExecutor> mTaskExecutor;
 };
 
 }

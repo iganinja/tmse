@@ -3,12 +3,12 @@
 
 #include "tasks/task.h"
 
+#include <type_traits>
+
 namespace Olagarro
 {
 namespace Tasks
 {
-
-TaskUP wait(float waitTime);
 
 template<typename Predicate>
 class WaitPredicate : public Task
@@ -33,6 +33,17 @@ template<typename Predicate>
 TaskUP wait(Predicate predicate)
 {
     return std::make_unique<WaitPredicate<Predicate>>(predicate);
+}
+
+namespace Implementation
+{
+TaskUP waitSeconds(float waitTime);
+}
+
+template<>
+inline TaskUP wait(float waitTime)
+{
+    return Implementation::waitSeconds(waitTime);
 }
 
 }

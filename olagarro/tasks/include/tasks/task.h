@@ -25,9 +25,9 @@ public:
     std::string tree() const;
 #endif
 
-    void onAboutToStart();
+    virtual void onAboutToStart();
 
-    bool wasStarted() const;
+    virtual bool wasStarted() const;
 
     enum class State
     {
@@ -35,15 +35,14 @@ public:
         Finished
     };
 
-    State update(float deltaTime);
+    virtual State update(float deltaTime);
 
     virtual std::vector<const Task*> children() const;
 
     virtual std::vector<std::unique_ptr<Task>> grabChildren();
 
-
-
 protected:
+    // Usually a task needs to override those methods
     virtual void taskOnAboutToStart();
     virtual State taskUpdate(float deltaTime) = 0;
 

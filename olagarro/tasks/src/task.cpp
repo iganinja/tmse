@@ -11,7 +11,7 @@ namespace
 
 std::string nTimesTabs(int times)
 {
-    std::string result = "";
+    std::string result{""};
 
     for(int i = 0; i < times; ++ i)
     {
@@ -50,7 +50,7 @@ std::string Task::tree() const
 
     std::string resultingTree;
 
-    while(!stack.empty())
+    while(not stack.empty())
     {
         const auto entry = stack.top();
         stack.pop();

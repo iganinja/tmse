@@ -12,8 +12,8 @@ template<typename Predicate>
 class RepeatWhile : public Task
 {
 public:
-    RepeatWhile(TaskUP&& task, Predicate predicate) :
-        mTask{std::move(task)}, mPredicate{predicate}
+    RepeatWhile(Predicate predicate, TaskUP&& task) :
+        mPredicate{predicate}, mTask{std::move(task)}
     {
     }
 
@@ -35,39 +35,45 @@ protected:
     void taskOnAboutToStart() override
     {
         mTask->onAboutToStart();
+
+        mShouldRestartTask = false;
     }
 
     State taskUpdate(float deltaTime) override
     {
-        const auto result = mTask->update(deltaTime);
+        if(not mPredicate())
+        {
+            return State::Finished;
+        }
+        else if(mShouldRestartTask)
+        {
+            mTask->onAboutToStart();
+        }
+
+        const auto result{mTask->update(deltaTime)};
 
         if(result == State::Finished)
         {
-            if(!mPredicate())
-            {
-                return State::Finished;
-            }
-
-            mTask->onAboutToStart();
+            mShouldRestartTask = true;
         }
 
         return State::Working;
     }
 
 private:
-    TaskUP mTask;
     Predicate mPredicate;
+    TaskUP mTask;
+    bool mShouldRestartTask;
 };
 
 TaskUP repeat(TaskUP&& task, size_t times);
+
 TaskUP repeatForever(TaskUP&& task);
 
-
-
 template<typename Predicate>
-TaskUP repeatWhile(TaskUP&& task, Predicate predicate)
+TaskUP repeatWhile(Predicate predicate, TaskUP&& task)
 {
-    return std::make_unique<RepeatWhile<Predicate>>(std::move(task), predicate);
+    return std::make_unique<RepeatWhile<Predicate>>(predicate, std::move(task));
 }
 
 }

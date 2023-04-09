@@ -1,7 +1,7 @@
 #include "fileutilities.h"
 
 #include <fstream>
-#include <stdexcept>
+#include "utils/exception.h"
 
 namespace TMSE
 {
@@ -12,7 +12,7 @@ Document loadFile(const std::string& fileName)
 
     if(!file.is_open())
     {
-        throw std::runtime_error{"Can't open " + fileName + " file for reading"};
+        THROW(Utils::CantOpenFile{fileName})
     }
 
     std::string line;
@@ -50,7 +50,7 @@ void saveFile(const std::string& fileName, const Document& document)
 
     if(!file.is_open())
     {
-        throw std::runtime_error{"Can't open " + fileName + " file for saving"};
+        THROW(Utils::CantOpenFile{fileName})
     }
 
     auto lines{document.lines()};

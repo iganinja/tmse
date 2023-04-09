@@ -23,7 +23,6 @@ add_executable(
   TMSE_tests
   undoredostack_tests.cpp
   document_tests.cpp
-  view_tests.cpp
 )
 target_link_libraries(TMSE_tests
   PRIVATE GTest::gtest_main

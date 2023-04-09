@@ -31,9 +31,12 @@ private:
     float mWaitedTime;
 };
 
-TaskUP wait(float waitTime)
+namespace Implementation
 {
-    return std::make_unique<Wait>(waitTime);
+TaskUP waitSeconds(float waitTime)
+{
+    return std::make_unique<::Olagarro::Tasks::Wait>(waitTime);
+}
 }
 
 }
