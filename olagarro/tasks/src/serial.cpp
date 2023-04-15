@@ -66,7 +66,7 @@ public:
 
 private:
     std::vector<TaskUP> mTasks;
-    std::size_t mCurrentTaskIndex;
+    size_t mCurrentTaskIndex;
 };
 
 TaskUP makeSerial(std::vector<TaskUP>&& tasks)

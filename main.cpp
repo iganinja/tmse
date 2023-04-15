@@ -1,10 +1,9 @@
-#include "cpp-terminal/base.hpp"
-#include "cpp-terminal/exception.hpp"
-#include "cpp-terminal/input.hpp"
-#include "cpp-terminal/terminal.hpp"
-#include "cpp-terminal/tty.hpp"
-#include "cpp-terminal/window.hpp"
-#include "cpp-terminal/options.hpp"
+#include <cpp-terminal/exception.hpp>
+#include <cpp-terminal/input.hpp>
+#include <cpp-terminal/terminal.hpp>
+#include <cpp-terminal/tty.hpp>
+#include <cpp-terminal/window.hpp>
+#include <cpp-terminal/options.hpp>
 
 #include "settings.h"
 #include "widgets/mainwindow.h"
@@ -15,14 +14,14 @@
 
 using namespace std::chrono_literals;
 
-std::string render(Term::Window& screen, const std::size_t& rows, const std::size_t& cols, const std::size_t& menuheight, const std::size_t& menuwidth, const std::size_t& menupos)
+std::string render(Term::Window& screen, const size_t& rows, const size_t& cols, const size_t& menuheight, const size_t& menuwidth, const size_t& menupos)
 {
     screen.clear();
-//    std::size_t menux0 = (cols - menuwidth) / 2 + 1;
-//    std::size_t menuy0 = (rows - menuheight) / 2 + 1;
+//    size_t menux0 = (cols - menuwidth) / 2 + 1;
+//    size_t menuy0 = (rows - menuheight) / 2 + 1;
 //    screen.print_rect(menux0, menuy0, menux0 + menuwidth + 1, menuy0 + menuheight + 1);
 
-//    for(std::size_t i = 1; i <= menuheight; i++)
+//    for(size_t i = 1; i <= menuheight; i++)
 //    {
 //        std::string s = std::to_string(i) + ": item";
 //        screen.print_str(menux0 + 1, menuy0 + i, s);
@@ -39,7 +38,7 @@ std::string render(Term::Window& screen, const std::size_t& rows, const std::siz
 //        }
 //    }
 
-//    std::size_t y = menuy0 + menuheight + 5;
+//    size_t y = menuy0 + menuheight + 5;
 //    screen.print_str(1, y, "Selected item: " + std::to_string(menupos));
 //    screen.print_str(1, y + 1, "Menu width: " + std::to_string(menuwidth));
 //    screen.print_str(1, y + 2, "Menu height: " + std::to_string(menuheight));
@@ -67,14 +66,14 @@ int main()
 
         loadSettings();
 
-        Term::Terminal                      terminal{{Term::Options::Option::ClearScreen, Term::Options::Option::Cursor, Term::Options::Option::NoSignalKeys}};
-        std::pair<std::size_t, std::size_t> term_size = Term::get_size();
+        Term::Terminal terminal{{Term::Options::Option::ClearScreen, Term::Options::Option::Cursor, Term::Options::Option::NoSignalKeys}};
+        auto terminalSize{Term::screen_size()};
         int                                 pos       = 5;
         int                                 h         = 10;
-        std::size_t                         w{10};
+        size_t                         w{10};
         bool                                on = true;
 
-        Utils::Size lastSize{std::get<1>(term_size), std::get<0>(term_size)};
+        Utils::Size lastSize{terminalSize.columns(), terminalSize.rows()};
         auto screen{std::make_unique<Term::Window>(lastSize.x(), lastSize.y())};
 
         Widgets::MainWindow mainWindow;
@@ -83,43 +82,44 @@ int main()
 
         while(on)
         {
-            screen->clear();
-
-            mainWindow.draw(*screen);
-
-            std::cout << screen->render(1, 1, true) << std::flush;
-
             auto keyEvent{Term::Platform::read_raw()};
 
             if(!keyEvent.empty())
             {
                 const std::int32_t key{Term::Key{keyEvent}};
-                switch(key)
-                {
-                case Term::Key::ARROW_LEFT:
-                    if(w > 10) w--;
-                    break;
-                case Term::Key::ARROW_RIGHT:
-                    if(w < std::get<1>(term_size) - 5) w++;
-                    break;
-                case Term::Key::ARROW_UP:
-                    if(pos > 1) pos--;
-                    break;
-                case Term::Key::ARROW_DOWN:
-                    if(pos < h) pos++;
-                    break;
-                case Term::Key::HOME: pos = 1; break;
-                case Term::Key::END: pos = h; break;
-                case 'q':
-                case Term::Key::ESC:
-                case Term::Key::CTRL + 'c': on = false; break;
-                }
+                mainWindow.onKey(key);
+//                switch(key)
+//                {
+//                case Term::Key::ARROW_LEFT:
+//                    if(w > 10) w--;
+//                    break;
+//                case Term::Key::ARROW_RIGHT:
+//                    if(w < terminalSize.rows() - 5) w++;
+//                    break;
+//                case Term::Key::ARROW_UP:
+//                    if(pos > 1) pos--;
+//                    break;
+//                case Term::Key::ARROW_DOWN:
+//                    if(pos < h) pos++;
+//                    break;
+//                case Term::Key::HOME: pos = 1; break;
+//                case Term::Key::END: pos = h; break;
+//                case 'q':
+//                case Term::Key::ESC:
+//                case Term::Key::CTRL + 'c': on = false; break;
+//                }
+
+                screen->clear();
+
+                mainWindow.draw(*screen);
+
+                std::cout << screen->render(1, 1, true) << std::flush;
             }
 
             std::this_thread::sleep_for(100ms);
 
-            auto currentTermSize{Term::get_size()};
-            const Utils::Size currentSize{std::get<1>(currentTermSize), std::get<0>(currentTermSize)};
+            auto currentTerminalSize{Term::screen_size()};
+            const Utils::Size currentSize{currentTerminalSize.columns(), currentTerminalSize.rows()};
 
             if(lastSize != currentSize)
             {

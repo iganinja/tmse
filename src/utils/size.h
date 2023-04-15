@@ -7,6 +7,6 @@
 namespace Utils
 {
 
-using Size = Vector2D<std::size_t>;
+using Size = Vector2D<size_t>;
 
 }

@@ -28,7 +28,7 @@ public:
     {
         State taskState{State::Finished};
 
-        auto update = [deltaTime, &taskState](std::size_t index, auto& task)
+        auto update = [deltaTime, &taskState](size_t index, auto& task)
         {
             taskState = task.update(deltaTime);
         };
@@ -52,9 +52,9 @@ public:
         return State::Working;
     }
 private:
-    void callTaskOnAboutToStart(std::size_t index)
+    void callTaskOnAboutToStart(size_t index)
     {
-        auto start = [](std::size_t index, auto& task)
+        auto start = [](size_t index, auto& task)
         {
             task.onAboutToStart();
         };
@@ -63,7 +63,7 @@ private:
     }
 
     std::tuple<Tasks...> mTasks;
-    std::size_t mCurrentTask;
+    size_t mCurrentTask;
 };
 
 template<typename... Tasks>

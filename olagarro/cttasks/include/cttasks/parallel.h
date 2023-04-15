@@ -23,7 +23,7 @@ public:
     {
         std::fill(std::begin(mFinishedTasks), std::end(mFinishedTasks), false);
 
-        forEachInTuple(mTasks, [](std::size_t index, auto& task)
+        forEachInTuple(mTasks, [](size_t index, auto& task)
         {
             task.onAboutToStart();
         });
@@ -33,7 +33,7 @@ public:
     {
         State taskState{State::Finished};
 
-        forEachInTuple(mTasks, [this, deltaTime, &taskState](std::size_t index, auto& task)
+        forEachInTuple(mTasks, [this, deltaTime, &taskState](size_t index, auto& task)
         {
             if(mFinishedTasks[index])
             {

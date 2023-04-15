@@ -43,7 +43,7 @@ public:
             return State::Finished;
         }
 
-        std::size_t finishedTasksCount{0};
+        size_t finishedTasksCount{0};
 
         for(auto& taskEntry : mTasks)
         {

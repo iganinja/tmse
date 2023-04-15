@@ -3,7 +3,7 @@
 #include "widget.h"
 #include "fillerbox.h"
 #include "mainmenu.h"
-#include "cttasks/taskexecutor.h"
+#include <tasks/taskexecutor.h>
 
 #include <memory>
 
@@ -15,14 +15,18 @@ class MainWindow : public Widget
 public:
     MainWindow();
 
+    void onKey(std::int32_t key);
+
 private:
     void widgetDraw(Term::Window& window) override;
-    void widgetOnResize(std::size_t newWidth, std::size_t newHeight) override;
+    void widgetOnResize(size_t newWidth, size_t newHeight) override;
+
+    void createTasks();
 
     MainMenu mMainMenu;
     FillerBox mFillerBox;
 
-    std::unique_ptr<Olagarro::CTTasks::TaskExecutor> mTaskExecutor;
+    Olagarro::Tasks::TaskExecutor mTaskExecutor;
 };
 
 }

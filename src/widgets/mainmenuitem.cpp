@@ -4,8 +4,8 @@
 namespace Widgets
 {
 
-MainMenuItem::MainMenuItem(const std::string& label, MenuList&& menuList) :
-    mMenuList{std::move(menuList)}
+MainMenuItem::MainMenuItem(const std::string& label, MenuUP menu) :
+    mMenu{std::move(menu)}
 {
     setLabel(label);
 }
@@ -42,23 +42,23 @@ void MainMenuItem::widgetDraw(Term::Window& window)
 
     if(mIsMenuShown)
     {
-        mMenuList.draw(window);
+        mMenu->draw(window);
     }
 }
 
 void MainMenuItem::widgetOnReposition(Utils::Position newPosition)
 {
-    mMenuList.setPosition(newPosition.x(), newPosition.y() + 1);
+    mMenu->setPosition(newPosition.x(), newPosition.y() + 1);
 }
 
-const MenuList& MainMenuItem::menuList() const
+const Menu& MainMenuItem::menu() const
 {
-    return mMenuList;
+    return *mMenu.get();
 }
 
-MenuList& MainMenuItem::menuList()
+Menu& MainMenuItem::menuList()
 {
-    return mMenuList;
+    return *mMenu.get();
 }
 
 

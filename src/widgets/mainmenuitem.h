@@ -1,7 +1,7 @@
 #pragma once
 
 #include "widget.h"
-#include "menulist.h"
+#include "menu.h"
 
 namespace Widgets
 {
@@ -9,7 +9,7 @@ namespace Widgets
 class MainMenuItem : public Widget
 {
 public:
-    MainMenuItem(const std::string& label, MenuList&& menuList);
+    MainMenuItem(const std::string& label, MenuUP menu);
 
     const std::string& label() const;
     void setLabel(const std::string& newLabel);
@@ -17,15 +17,15 @@ public:
     void showMenu();
     void hideMenu();
 
-    const MenuList& menuList() const;
-    MenuList& menuList();
+    const Menu& menu() const;
+    Menu& menuList();
 
 private:
     void widgetDraw(Term::Window& window) override;
     void widgetOnReposition(Utils::Position newPosition) override;
 
     std::string mLabel;
-    MenuList mMenuList;
+    MenuUP mMenu;
 
     bool mIsMenuShown{false};
 };

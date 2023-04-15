@@ -1,5 +1,5 @@
 #include "mainmenu.h"
-#include "menulist.h"
+#include "menu.h"
 #include "settings.h"
 #include "localization.h"
 
@@ -13,12 +13,30 @@ using namespace std::string_literals;
 
 MainMenu::MainMenu()
 {
-    std::vector<std::tuple<std::string, MenuList>> menuEntries
+    auto makeEntry = [](std::string&& label, Utils::Event<void>& event)
     {
-        std::make_tuple(tr("File"), MenuList{tr("Open..."), tr("Save"), tr("Save as..."), tr("Close"), tr("Exit")}),
-        std::make_tuple(tr("Edit"), MenuList{tr("Undo"), tr("Redo")}),
-        std::make_tuple(tr("Help"), MenuList{tr("About")})
+        return std::unique_ptr<MenuEntry>{new PlainMenuEntry{label, event}};
     };
+
+    auto fileMenu{std::make_unique<Menu>()};
+    fileMenu->addEntry(makeEntry(tr("New"), newFile));
+    fileMenu->addEntry(makeEntry(tr("Open..."), openFile));
+    fileMenu->addEntry(makeEntry(tr("Save"), saveFile));
+    fileMenu->addEntry(makeEntry(tr("Save as..."), saveFileAs));
+    fileMenu->addEntry(makeEntry(tr("Close"), closeFile));
+    fileMenu->addEntry(makeEntry(tr("Exit"), exitApp));
+
+    auto editMenu{std::make_unique<Menu>()};
+    editMenu->addEntry(makeEntry(tr("Undo"), undo));
+    editMenu->addEntry(makeEntry(tr("Redor"), redo));
+
+    auto helpMenu{std::make_unique<Menu>()};
+    helpMenu->addEntry(makeEntry(tr("About..."), aboutApp));
+
+    std::vector<std::tuple<std::string, MenuUP>> menuEntries;
+    menuEntries.emplace_back(std::make_tuple(tr("File"), std::move(fileMenu)));
+    menuEntries.emplace_back(std::make_tuple(tr("Edit"), std::move(editMenu)));
+    menuEntries.emplace_back(std::make_tuple(tr("Help"), std::move(helpMenu)));
 
     for(auto& entry : menuEntries)
     {
@@ -39,7 +57,7 @@ void MainMenu::widgetDraw(Term::Window& window)
     }
 }
 
-void MainMenu::widgetOnResize(std::size_t newWidth, std::size_t newHeight)
+void MainMenu::widgetOnResize(size_t newWidth, size_t newHeight)
 {
     int currentX = 1;
 

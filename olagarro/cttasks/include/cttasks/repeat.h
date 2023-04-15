@@ -12,7 +12,7 @@ template<typename Task>
 class Repeat
 {
 public:
-    Repeat(Task task, std::size_t repeatsNumber) :
+    Repeat(Task task, size_t repeatsNumber) :
         mTask{task},
         mRepeatsNumber{repeatsNumber}
     {
@@ -44,12 +44,12 @@ public:
 
 private:
     Task mTask;
-    const std::size_t mRepeatsNumber;
-    std::size_t mCurrentRepetitions;
+    const size_t mRepeatsNumber;
+    size_t mCurrentRepetitions;
 };
 
 template<typename Task>
-Repeat<Task> repeat(Task task, std::size_t repeatsNumber)
+Repeat<Task> repeat(Task task, size_t repeatsNumber)
 {
     return Repeat<Task>{task, repeatsNumber};
 }

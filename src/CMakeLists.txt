@@ -37,8 +37,10 @@ add_library(TextEditor STATIC
     widgets/mainmenu.cpp
     widgets/mainmenuitem.h
     widgets/mainmenuitem.cpp
-    widgets/menulist.h
-    widgets/menulist.cpp
+    widgets/menu.h
+    widgets/menu.cpp
+    widgets/menuentry.h
+    widgets/menuentry.cpp
 
     utils/vector2d.h
     utils/size.h
@@ -46,6 +48,12 @@ add_library(TextEditor STATIC
     utils/terminalutils.cpp
     utils/exception.h
     utils/exception.cpp
+    utils/event.h
+
+    tasks/mainmenutasks.h
+    tasks/mainmenutasks.cpp
+    tasks/waitkey.h
+    tasks/waitkey.cpp
 
     settings.h
     settings.cpp

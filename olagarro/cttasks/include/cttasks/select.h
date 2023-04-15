@@ -63,7 +63,7 @@ public:
     {
         mSelectedEntry = InvalidSelection;
 
-        forEachInTuple(mEntries, [](std::size_t index, auto& entry)
+        forEachInTuple(mEntries, [](size_t index, auto& entry)
         {
             entry.onAboutToStart();
         });
@@ -75,7 +75,7 @@ public:
         {
             State taskState{State::Finished};
 
-            visitTupleAt(mEntries, mSelectedEntry, [deltaTime, &taskState](std::size_t index, auto& entry)
+            visitTupleAt(mEntries, mSelectedEntry, [deltaTime, &taskState](size_t index, auto& entry)
             {
                 taskState = entry.updateTask(deltaTime);
             });
@@ -85,7 +85,7 @@ public:
 
         for(auto i = 0u; i < sizeof...(Entries); ++ i)
         {
-            visitTupleAt(mEntries, i, [this, deltaTime](std::size_t index, auto& entry)
+            visitTupleAt(mEntries, i, [this, deltaTime](size_t index, auto& entry)
             {
                 if(entry.checkPredicate(deltaTime))
                 {
@@ -104,11 +104,11 @@ public:
     }
 private:
     std::tuple<Entries...> mEntries;
-    enum : std::size_t
+    enum : size_t
     {
-        InvalidSelection = static_cast<std::size_t>(-1)
+        InvalidSelection = static_cast<size_t>(-1)
     };
-    std::size_t mSelectedEntry;
+    size_t mSelectedEntry;
 };
 
 template<typename... Entries>

@@ -16,7 +16,7 @@ public:
 
 private:
     void widgetDraw(Term::Window& window) override;
-    void widgetOnResize(std::size_t newWidth, std::size_t newHeight) override;
+    void widgetOnResize(size_t newWidth, size_t newHeight) override;
 
     std::vector<WidgetUP> mWidgets;
 };

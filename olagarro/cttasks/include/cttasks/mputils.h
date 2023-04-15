@@ -8,11 +8,11 @@ namespace Olagarro
 namespace CTTasks
 {
 
-template<std::size_t I>
+template<size_t I>
 struct VisitImplementation
 {
 template<typename Type, typename Visitor>
-static void visit(Type& tuple, std::size_t index, Visitor visitor)
+static void visit(Type& tuple, size_t index, Visitor visitor)
 {
     if (index == I - 1)
     {
@@ -29,20 +29,20 @@ template<>
 struct VisitImplementation<0>
 {
 template<typename Type, typename Visitor>
-static void visit(Type& tuple, std::size_t index, Visitor visitor)
+static void visit(Type& tuple, size_t index, Visitor visitor)
 {
     assert(false);
 }
 };
 
 template<typename Visitor, typename... Types>
-void visitTupleAt(std::tuple<Types...> const& tuple, std::size_t index, Visitor visitor)
+void visitTupleAt(std::tuple<Types...> const& tuple, size_t index, Visitor visitor)
 {
     VisitImplementation<sizeof...(Types)>::visit(tuple, index, visitor);
 }
 
 template<typename Visitor, typename... Types>
-void visitTupleAt(std::tuple<Types...>& tuple, std::size_t index, Visitor visitor)
+void visitTupleAt(std::tuple<Types...>& tuple, size_t index, Visitor visitor)
 {
     VisitImplementation<sizeof...(Types)>::visit(tuple, index, visitor);
 }
