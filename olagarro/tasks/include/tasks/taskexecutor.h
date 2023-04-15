@@ -17,10 +17,13 @@ class TaskExecutor
 public:
     void addTask(TaskUP&& task);
 
-    void update(float deltaTime);
+    void update();
 
 private:
     std::vector<TaskUP> mTasks;
+
+    using Clock = std::chrono::high_resolution_clock;
+    std::chrono::time_point<Clock> mLastTimePoint;
 };
 
 }

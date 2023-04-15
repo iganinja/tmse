@@ -27,12 +27,17 @@ const std::vector<MenuEntryUP>& Menu::entries() const
 
 void Menu::setSelectedEntry(size_t index)
 {
-    mIndex = index;
+    mSelectedEntry = index;
 }
 
 size_t Menu::selectedEntry() const
 {
-    return mIndex;
+    return mSelectedEntry;
+}
+
+void Menu::triggerSelectedEntry()
+{
+    mEntries[mSelectedEntry]->event().trigger();
 }
 
 void Menu::widgetDraw(Term::Window& window)
@@ -42,7 +47,7 @@ void Menu::widgetDraw(Term::Window& window)
                     mPosition.y(),
                     mPosition.x() + mSize.x() - 1,
                     mPosition.y() + mSize.y() - 1,
-                    settings().selectedMenuItemColor);
+                    settings().selectedMenuItemColors);
 
     Utils::Position p{mPosition.x() + 1, mPosition.y() + 1};
 
@@ -50,7 +55,7 @@ void Menu::widgetDraw(Term::Window& window)
     {
         const auto& entry{mEntries[i]};
 
-        entry->draw(p.x(), p.y(), mSize.x(), mIndex == i, window);
+        entry->draw(p.x(), p.y(), mSize.x(), mSelectedEntry == i, window);
 
         p.setY(p.y() + 1);
     }

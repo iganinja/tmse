@@ -33,8 +33,8 @@ void MainMenuItem::hideMenu()
 
 void MainMenuItem::widgetDraw(Term::Window& window)
 {
-    const auto colorBG{mIsMenuShown? settings().selectedMenuItemColor.background : settings().menuItemColor.background};
-    const auto colorFG{mIsMenuShown? settings().selectedMenuItemColor.foreground : settings().menuItemColor.foreground};
+    const auto colorBG{mIsMenuShown? settings().selectedMenuItemColors.background : settings().menuItemColors.background};
+    const auto colorFG{mIsMenuShown? settings().selectedMenuItemColors.foreground : settings().menuItemColors.foreground};
 
     window.fill_bg(mPosition.x(), mPosition.y(), mPosition.x() + mSize.x() - 1, 1, colorBG);
     window.fill_fg(mPosition.x(), mPosition.y(), mPosition.x() + mSize.x() - 1, 1, colorFG);
@@ -51,7 +51,7 @@ void MainMenuItem::widgetOnReposition(Utils::Position newPosition)
     mMenu->setPosition(newPosition.x(), newPosition.y() + 1);
 }
 
-const Menu& MainMenuItem::menu() const
+Menu& MainMenuItem::menu()
 {
     return *mMenu.get();
 }

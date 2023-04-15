@@ -3,9 +3,6 @@ cmake_minimum_required(VERSION 3.5)
 include_directories(../olagarro/tasks/include)
 add_subdirectory(../olagarro/tasks ./tasks_lib)
 
-include_directories(../olagarro/cttasks/include)
-add_subdirectory(../olagarro/cttasks ./cttasks_lib)
-
 include(FetchContent)
 
 FetchContent_Declare(terminalcpp
@@ -31,8 +28,6 @@ add_library(TextEditor STATIC
     widgets/layouts.cpp
     widgets/fillerbox.h
     widgets/fillerbox.cpp
-    widgets/mainwindow.h
-    widgets/mainwindow.cpp
     widgets/mainmenu.h
     widgets/mainmenu.cpp
     widgets/mainmenuitem.h
@@ -41,6 +36,8 @@ add_library(TextEditor STATIC
     widgets/menu.cpp
     widgets/menuentry.h
     widgets/menuentry.cpp
+    widgets/welcomebackground.h
+    widgets/welcomebackground.cpp
 
     utils/vector2d.h
     utils/size.h
@@ -54,6 +51,8 @@ add_library(TextEditor STATIC
     tasks/mainmenutasks.cpp
     tasks/waitkey.h
     tasks/waitkey.cpp
+    tasks/tasksutils.h
+    tasks/tasksutils.cpp
 
     settings.h
     settings.cpp
@@ -63,7 +62,9 @@ add_library(TextEditor STATIC
     document.h
     document.cpp
     fileutilities.h
-    fileutilities.cpp)
+    fileutilities.cpp
+    mainwindow.h
+    mainwindow.cpp)
 
 include_directories(".")
 

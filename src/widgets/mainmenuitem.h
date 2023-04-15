@@ -17,7 +17,7 @@ public:
     void showMenu();
     void hideMenu();
 
-    const Menu& menu() const;
+    Menu& menu();
     Menu& menuList();
 
 private:

@@ -15,12 +15,14 @@ public:
     void setSelectedEntry(size_t index);
     size_t selectedEntry() const;
 
+    void triggerSelectedEntry();
+
 private:
     void widgetDraw(Term::Window& window) override;
 
     std::vector<MenuEntryUP> mEntries;
 
-    size_t mIndex{0};
+    size_t mSelectedEntry{0};
 };
 
 using MenuUP = std::unique_ptr<Menu>;

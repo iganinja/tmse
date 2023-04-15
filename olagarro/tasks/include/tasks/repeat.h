@@ -47,6 +47,7 @@ protected:
         }
         else if(mShouldRestartTask)
         {
+            mShouldRestartTask = false;
             mTask->onAboutToStart();
         }
 

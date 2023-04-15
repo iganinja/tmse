@@ -43,7 +43,7 @@ void PlainMenuEntry::menuEntryDraw(int x, int y, size_t width, bool isSelected, 
                         y,
                         x + width - 2 - 1,
                         y,
-                        settings().menuItemCurrentItemColor);
+                        settings().menuItemCurrentItemColors);
     }
     window.print_str(x, y, mLabel);
 }

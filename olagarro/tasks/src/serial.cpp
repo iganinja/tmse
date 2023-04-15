@@ -47,21 +47,22 @@ public:
             return State::Finished;
         }
 
-        if(mTasks[mCurrentTaskIndex]->update(deltaTime) == State::Working)
+        while(mCurrentTaskIndex < mTasks.size())
         {
-            return State::Working;
+            if(mTasks[mCurrentTaskIndex]->update(deltaTime) == State::Working)
+            {
+                return State::Working;
+            }
+
+            ++ mCurrentTaskIndex;
+
+            if(mCurrentTaskIndex < mTasks.size())
+            {
+                mTasks[mCurrentTaskIndex]->onAboutToStart();
+            }
         }
 
-        ++ mCurrentTaskIndex;
-
-        if(mCurrentTaskIndex == mTasks.size())
-        {
-            return State::Finished;
-        }
-
-        mTasks[mCurrentTaskIndex]->onAboutToStart();
-
-        return State::Working;
+        return State::Finished;
     }
 
 private:

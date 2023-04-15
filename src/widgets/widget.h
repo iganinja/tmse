@@ -55,12 +55,25 @@ protected:
     //virtual bool widgetOnKey(int32_t key);
     //virtual Olagarro::Tasks::TaskUP widgetTasks();
 
+    enum class HorizontalAnchor
+    {
+        Left,
+        Center,
+        Right
+    };
+
+    void write(int x, int y, const std::string& text, HorizontalAnchor hAnchor, Term::Window& window);
+    void write(int x, int y, const std::string& text, HorizontalAnchor hAnchor, Term::Color colorBG, Term::Color colorFG, Term::Window& window);
+
     //Widget* mParent{nullptr};
     //std::vector<std::unique_ptr<Widget>> mChildren;
     bool mIsVisible{true};
     Utils::Position mPosition{1, 1};
     Utils::Size mSize;
     //SizeBehavior mSizeBehavior{SizeFlags::Expanding, SizeFlags::Expanding};
+
+private:
+    void write(int x, int y, const std::string& text, HorizontalAnchor hAnchor, Term::Color colorBG, Term::Color colorFG, bool useColors, Term::Window& window);
 };
 
 using WidgetUP = std::unique_ptr<Widget>;

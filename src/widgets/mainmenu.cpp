@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <tuple>
+#include <cassert>
 
 namespace Widgets
 {
@@ -28,7 +29,7 @@ MainMenu::MainMenu()
 
     auto editMenu{std::make_unique<Menu>()};
     editMenu->addEntry(makeEntry(tr("Undo"), undo));
-    editMenu->addEntry(makeEntry(tr("Redor"), redo));
+    editMenu->addEntry(makeEntry(tr("Redo"), redo));
 
     auto helpMenu{std::make_unique<Menu>()};
     helpMenu->addEntry(makeEntry(tr("About..."), aboutApp));
@@ -42,14 +43,47 @@ MainMenu::MainMenu()
     {
         mItems.emplace_back(MainMenuItem{std::get<0>(entry), std::move(std::get<1>(entry))});
     }
+}
 
-    mItems[0].showMenu();
+void MainMenu::showMenu(size_t index)
+{
+    assert(index < menuNumber() && "Provided index is out of bounds");
+
+    mCurrentMenuIndex = index;
+
+    for(size_t i = 0; i < menuNumber(); ++ i)
+    {
+        if(i == mCurrentMenuIndex)
+        {
+            mItems[i].showMenu();
+            mItems[i].menu().setSelectedEntry(0);
+        }
+        else
+        {
+            mItems[i].hideMenu();
+        }
+    }
+}
+
+size_t MainMenu::menuNumber() const
+{
+    return mItems.size();
+}
+
+Menu& MainMenu::currentMenu()
+{
+    return mItems[mCurrentMenuIndex].menu();
+}
+
+size_t MainMenu::currentMenuIndex() const
+{
+    return mCurrentMenuIndex;
 }
 
 void MainMenu::widgetDraw(Term::Window& window)
 {
-    window.fill_bg(mPosition.x(), mPosition.y(), mPosition.x() + mSize.x() - 1, mPosition.y() + mSize.y() - 1, settings().mainMenuColor.background);
-    window.fill_fg(mPosition.x(), mPosition.y(), mPosition.x() + mSize.x() - 1, mPosition.y() + mSize.y() - 1, settings().mainMenuColor.background);
+    window.fill_bg(mPosition.x(), mPosition.y(), mPosition.x() + mSize.x() - 1, mPosition.y() + mSize.y() - 1, settings().mainMenuColors.background);
+    window.fill_fg(mPosition.x(), mPosition.y(), mPosition.x() + mSize.x() - 1, mPosition.y() + mSize.y() - 1, settings().mainMenuColors.background);
 
     for(auto& item : mItems)
     {

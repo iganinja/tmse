@@ -1,11 +1,11 @@
 #pragma once
 
-#include "widgets/mainmenu.h"
+#include "mainwindow.h"
 #include <tasks/wait.h>
 
 namespace TMSETasks
 {
 
-Olagarro::Tasks::TaskUP mainMenu(Widgets::MainMenu& mainMenu);
+Olagarro::Tasks::TaskUP mainMenu(MainWindow& mainWindow);
 
 }

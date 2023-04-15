@@ -41,6 +41,7 @@ private:
 template<>
 class Event<void>
 {
+public:
     void trigger()
     {
         mTriggered = true;

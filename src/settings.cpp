@@ -6,13 +6,15 @@ using Color = Term::Color::Name;
 
 void loadSettings()
 {
-    settingsStorage.mainMenuColor = ColorSetting{Color::BrightMagenta, Color::BrightMagenta};
+    settingsStorage.mainMenuColors = ColorSetting{Color::BrightMagenta, Color::BrightMagenta};
 
-    settingsStorage.menuItemColor = ColorSetting{Color::Blue, Color::BrightYellow};
+    settingsStorage.menuItemColors = ColorSetting{Color::Blue, Color::BrightYellow};
 
-    settingsStorage.selectedMenuItemColor = ColorSetting{Color::Yellow, Color::BrightBlue};
+    settingsStorage.selectedMenuItemColors = ColorSetting{Color::Yellow, Color::BrightBlue};
 
-    settingsStorage.menuItemCurrentItemColor = settingsStorage.menuItemColor;
+    settingsStorage.menuItemCurrentItemColors = settingsStorage.menuItemColors;
+
+    settingsStorage.welcomeBackgroundColors = ColorSetting{Color::Gray, Color::Black};
 }
 
 const Settings& settings()

@@ -1,4 +1,5 @@
 #include "widget.h"
+#include "utils/terminalutils.h"
 
 namespace Widgets
 {
@@ -106,6 +107,42 @@ void Widget::widgetOnReposition(Utils::Position newPosition)
 
 void Widget::widgetOnResize(size_t newWidth, size_t newHeight)
 {
+}
+
+void Widget::write(int x, int y, const std::string& text, HorizontalAnchor hAnchor, Term::Window& window)
+{
+    const auto DummyColor{Term::Color::Name::Black};
+    write(x, y, text, hAnchor, DummyColor, DummyColor, false, window);
+}
+
+void Widget::write(int x, int y, const std::string& text, HorizontalAnchor hAnchor, Term::Color colorBG, Term::Color colorFG, Term::Window& window)
+{
+    write(x, y, text, hAnchor, colorBG, colorFG, true, window);
+}
+
+void Widget::write(int x, int y, const std::string& text, HorizontalAnchor hAnchor, Term::Color colorBG, Term::Color colorFG, bool useColors, Term::Window& window)
+{
+    auto textX{0};
+
+    switch(hAnchor)
+    {
+    case HorizontalAnchor::Left:
+        textX = position().x() + x;
+        break;
+    case HorizontalAnchor::Center:
+        textX = position().x() + x - text.length() / 2;
+        break;
+    case HorizontalAnchor::Right:
+        textX = position().x() + x - text.length();
+        break;
+    }
+
+    if(useColors)
+    {
+        Utils::fillBGFG(window, textX, position().y() + y, textX + text.length(), y + 1, colorBG, colorFG);
+    }
+
+    window.print_str(textX, position().y() + y, text);
 }
 
 //bool Widget::widgetOnKey(int32_t key)
