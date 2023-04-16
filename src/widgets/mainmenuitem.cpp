@@ -17,8 +17,8 @@ const std::string& MainMenuItem::label() const
 
 void MainMenuItem::setLabel(const std::string& newLabel)
 {
-    mLabel = " " + newLabel;
-    mSize = Utils::Size{mLabel.size() + 1, 1};
+    mLabel = " " + newLabel + " ";
+    mSize = Utils::Size{mLabel.size(), 1};
 }
 
 void MainMenuItem::showMenu()
@@ -36,9 +36,7 @@ void MainMenuItem::widgetDraw(Term::Window& window)
     const auto colorBG{mIsMenuShown? settings().selectedMenuItemColors.background : settings().menuItemColors.background};
     const auto colorFG{mIsMenuShown? settings().selectedMenuItemColors.foreground : settings().menuItemColors.foreground};
 
-    window.fill_bg(mPosition.x(), mPosition.y(), mPosition.x() + mSize.x() - 1, 1, colorBG);
-    window.fill_fg(mPosition.x(), mPosition.y(), mPosition.x() + mSize.x() - 1, 1, colorFG);
-    window.print_str(mPosition.x(), mPosition.y(), mLabel);
+    write(0, 0, mLabel, HorizontalAnchor::Left, colorBG, colorFG, window);
 
     if(mIsMenuShown)
     {

@@ -120,6 +120,32 @@ void Widget::write(int x, int y, const std::string& text, HorizontalAnchor hAnch
     write(x, y, text, hAnchor, colorBG, colorFG, true, window);
 }
 
+void Widget::write(int x, int y, const std::string& text, HorizontalAnchor hAnchor, const ColorSetting& colors, Term::Window& window)
+{
+    write(x, y, text, hAnchor, colors.background, colors.foreground, true, window);
+}
+
+void Widget::drawRect(int x, int y, size_t width, size_t height, Term::Color colorBG, Term::Color colorFG, Term::Window& window)
+{
+    Utils::fillBGFG(window, position().x() + x, position().y() + y, position().x() + x + width - 1, position().y() + y + height - 1, colorBG, colorFG);
+}
+
+void Widget::drawRect(int x, int y, size_t width, size_t height, const ColorSetting& colors, Term::Window& window)
+{
+    drawRect(x, y, width, height, colors.background, colors.foreground, window);
+}
+
+void Widget::drawBox(int x, int y, size_t width, size_t height, Term::Color colorBG, Term::Color colorFG, Term::Window& window)
+{
+    drawRect(x, y, width, height, colorBG, colorFG, window);
+    window.print_rect(position().x() + x, position().y() + y, position().x() + x + width - 1, position().y() + y + height - 1);
+}
+
+void Widget::drawBox(int x, int y, size_t width, size_t height, const ColorSetting& colors, Term::Window& window)
+{
+    drawBox(x, y, width, height, colors.background, colors.foreground, window);
+}
+
 void Widget::write(int x, int y, const std::string& text, HorizontalAnchor hAnchor, Term::Color colorBG, Term::Color colorFG, bool useColors, Term::Window& window)
 {
     auto textX{0};
@@ -139,7 +165,7 @@ void Widget::write(int x, int y, const std::string& text, HorizontalAnchor hAnch
 
     if(useColors)
     {
-        Utils::fillBGFG(window, textX, position().y() + y, textX + text.length(), y + 1, colorBG, colorFG);
+        Utils::fillBGFG(window, textX, position().y() + y, textX + text.length() - 1, position().y() + y, colorBG, colorFG);
     }
 
     window.print_str(textX, position().y() + y, text);

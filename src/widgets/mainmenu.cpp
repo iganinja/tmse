@@ -2,6 +2,7 @@
 #include "menu.h"
 #include "settings.h"
 #include "localization.h"
+#include "utils/terminalutils.h"
 
 #include <vector>
 #include <tuple>
@@ -82,8 +83,7 @@ size_t MainMenu::currentMenuIndex() const
 
 void MainMenu::widgetDraw(Term::Window& window)
 {
-    window.fill_bg(mPosition.x(), mPosition.y(), mPosition.x() + mSize.x() - 1, mPosition.y() + mSize.y() - 1, settings().mainMenuColors.background);
-    window.fill_fg(mPosition.x(), mPosition.y(), mPosition.x() + mSize.x() - 1, mPosition.y() + mSize.y() - 1, settings().mainMenuColors.background);
+    drawRect(0, 0, size().x(), size().y(), settings().mainMenuColors, window);
 
     for(auto& item : mItems)
     {

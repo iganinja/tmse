@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "utils/size.h"
+#include "settings.h"
 
 namespace Widgets
 {
@@ -64,6 +65,14 @@ protected:
 
     void write(int x, int y, const std::string& text, HorizontalAnchor hAnchor, Term::Window& window);
     void write(int x, int y, const std::string& text, HorizontalAnchor hAnchor, Term::Color colorBG, Term::Color colorFG, Term::Window& window);
+    void write(int x, int y, const std::string& text, HorizontalAnchor hAnchor, const ColorSetting& colors, Term::Window& window);
+
+    void drawRect(int x, int y, size_t width, size_t height, Term::Color colorBG, Term::Color colorFG, Term::Window& window);
+    void drawRect(int x, int y, size_t width, size_t height, const ColorSetting& colors, Term::Window& window);
+
+    // A box includes a border
+    void drawBox(int x, int y, size_t width, size_t height, Term::Color colorBG, Term::Color colorFG, Term::Window& window);
+    void drawBox(int x, int y, size_t width, size_t height, const ColorSetting& colors, Term::Window& window);
 
     //Widget* mParent{nullptr};
     //std::vector<std::unique_ptr<Widget>> mChildren;

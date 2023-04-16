@@ -42,20 +42,15 @@ void Menu::triggerSelectedEntry()
 
 void Menu::widgetDraw(Term::Window& window)
 {
-    Utils::drawRect(window,
-                    mPosition.x(),
-                    mPosition.y(),
-                    mPosition.x() + mSize.x() - 1,
-                    mPosition.y() + mSize.y() - 1,
-                    settings().selectedMenuItemColors);
+    drawBox(0, 0, size().x(), size().y(), settings().selectedMenuItemColors, window);
 
-    Utils::Position p{mPosition.x() + 1, mPosition.y() + 1};
+    Utils::Position p{position().x() + 1, position().y() + 1};
 
     for(size_t i = 0; i < mEntries.size(); ++ i)
     {
         const auto& entry{mEntries[i]};
 
-        entry->draw(p.x(), p.y(), mSize.x(), mSelectedEntry == i, window);
+        entry->draw(p.x(), p.y(), size().x(), mSelectedEntry == i, window);
 
         p.setY(p.y() + 1);
     }

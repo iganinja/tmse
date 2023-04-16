@@ -1,6 +1,5 @@
 #include "welcomebackground.h"
 #include "settings.h"
-#include "utils/terminalutils.h"
 #include "localization.h"
 
 namespace Widgets
@@ -10,9 +9,9 @@ void WelcomeBackground::widgetDraw(Term::Window& window)
 {
     const auto& colors{settings().welcomeBackgroundColors};
 
-    Utils::fillBGFG(window, mPosition.x(), mPosition.y(), mPosition.x() + mSize.x() - 1, mPosition.y() + mSize.y() - 1, colors.background, colors.foreground);
+    drawRect(0, 0, size().x(), size().y(), settings().welcomeBackgroundColors, window);
 
-    //write(0, 0, "hola qué tal", HorizontalAnchor::Left, Term::Color::Name::Red, Term::Color::Name::BrightWhite, window);
+    write(1, 0, tr("hola qué tal"), HorizontalAnchor::Left, Term::Color::Name::Red, Term::Color::Name::BrightWhite, window);
 
     const std::vector<std::string> CenteredTexts
     {
