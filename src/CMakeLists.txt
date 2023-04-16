@@ -65,6 +65,8 @@ add_library(TextEditor STATIC
     tasks/waitkey.cpp
     tasks/tasksutils.h
     tasks/tasksutils.cpp
+    tasks/menutasks.h
+    tasks/menutasks.cpp
 
     settings.h
     settings.cpp
