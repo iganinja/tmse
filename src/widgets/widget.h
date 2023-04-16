@@ -3,6 +3,7 @@
 #include <cpp-terminal/window.hpp>
 #include <memory>
 
+#include "utils/vector2d.h"
 #include "tasks/task.h"
 #include "utils/size.h"
 #include "settings.h"

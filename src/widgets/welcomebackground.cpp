@@ -9,7 +9,7 @@ void WelcomeBackground::widgetDraw(Term::Window& window)
 {
     const auto& colors{settings().welcomeBackgroundColors};
 
-    drawRect(0, 0, size().x(), size().y(), settings().welcomeBackgroundColors, window);
+    drawRect(0, 0, size().x, size().y, settings().welcomeBackgroundColors, window);
 
     //write(1, 0, tr("hola qué tal ñ_ñ ò_ó Ò_Ó ç_ç Ç_Ç ¼"), HorizontalAnchor::Left, Term::Color::Name::Red, Term::Color::Name::BrightWhite, window);
 
@@ -31,14 +31,14 @@ void WelcomeBackground::widgetDraw(Term::Window& window)
     {
         for(const auto& text : textList)
         {
-            write(size().x() / 2 + offsetXFromCenter, baseY, text, anchor, settings().welcomeBackgroundColors, window);
+            write(size().x / 2 + offsetXFromCenter, baseY, text, anchor, settings().welcomeBackgroundColors, window);
             ++ baseY;
         }
 
         return baseY;
     };
 
-    auto baseY{static_cast<int>(size().y() * 0.25f)};
+    auto baseY{static_cast<int>(size().y * 0.25f)};
 
     baseY = printText(0, baseY, CenteredTexts, HorizontalAnchor::Center);
     printText(-10, baseY, ShortcutTexts, HorizontalAnchor::Left);

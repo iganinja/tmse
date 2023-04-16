@@ -3,6 +3,19 @@
 
 #include <utf8.h>
 
+namespace
+{
+
+// Widget coordinate system is base 0, but cpp-terminal seems to be (1, 1) base
+constexpr Utils::Position PositionOffset{1, 1};
+
+Utils::Position mapToTerminal(const Utils::Position& p)
+{
+    return p + PositionOffset;
+}
+
+}
+
 namespace Widgets
 {
 
@@ -129,7 +142,8 @@ void Widget::write(int x, int y, const std::string& text, HorizontalAnchor hAnch
 
 void Widget::drawRect(int x, int y, size_t width, size_t height, Term::Color colorBG, Term::Color colorFG, Term::Window& window)
 {
-    Utils::fillBGFG(window, position().x() + x, position().y() + y, position().x() + x + width - 1, position().y() + y + height - 1, colorBG, colorFG);
+    auto const terminalPosition{mapToTerminal(position() + Utils::Position{x, y})};
+    Utils::fillBGFG(window, terminalPosition.x, terminalPosition.y, terminalPosition.x + width - 1, terminalPosition.y + height - 1, colorBG, colorFG);
 }
 
 void Widget::drawRect(int x, int y, size_t width, size_t height, const ColorSetting& colors, Term::Window& window)
@@ -140,7 +154,9 @@ void Widget::drawRect(int x, int y, size_t width, size_t height, const ColorSett
 void Widget::drawBox(int x, int y, size_t width, size_t height, Term::Color colorBG, Term::Color colorFG, Term::Window& window)
 {
     drawRect(x, y, width, height, colorBG, colorFG, window);
-    window.print_rect(position().x() + x, position().y() + y, position().x() + x + width - 1, position().y() + y + height - 1);
+
+    auto const terminalPosition{mapToTerminal(position() + Utils::Position{x, y})};
+    window.print_rect(terminalPosition.x, terminalPosition.y, terminalPosition.x + width - 1, terminalPosition.y + height - 1);
 }
 
 void Widget::drawBox(int x, int y, size_t width, size_t height, const ColorSetting& colors, Term::Window& window)
@@ -150,28 +166,29 @@ void Widget::drawBox(int x, int y, size_t width, size_t height, const ColorSetti
 
 void Widget::write(int x, int y, const std::string& text, HorizontalAnchor hAnchor, Term::Color colorBG, Term::Color colorFG, bool useColors, Term::Window& window)
 {
+    auto const terminalPosition{mapToTerminal(position() + Utils::Position{x, y})};
     const auto textLength{utf8::distance(text.begin(), text.end())};
     auto textX{0};
 
     switch(hAnchor)
     {
     case HorizontalAnchor::Left:
-        textX = position().x() + x;
+        textX = terminalPosition.x;
         break;
     case HorizontalAnchor::Center:
-        textX = position().x() + x - textLength / 2;
+        textX = terminalPosition.x - textLength / 2;
         break;
     case HorizontalAnchor::Right:
-        textX = position().x() + x - textLength;
+        textX = terminalPosition.x - textLength;
         break;
     }
 
     if(useColors)
     {
-        Utils::fillBGFG(window, textX, position().y() + y, textX + textLength - 1, position().y() + y, colorBG, colorFG);
+        Utils::fillBGFG(window, textX, terminalPosition.y, textX + textLength - 1, terminalPosition.y, colorBG, colorFG);
     }
 
-    window.print_str(textX, position().y() + y, text);
+    window.print_str(textX, terminalPosition.y, text);
 }
 
 //bool Widget::widgetOnKey(int32_t key)

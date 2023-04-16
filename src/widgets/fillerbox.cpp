@@ -10,7 +10,7 @@ FillerBox::FillerBox(const Term::Color& color) :
 
 void FillerBox::widgetDraw(Term::Window& window)
 {
-    drawRect(0, 0, size().x(), size().y(), mColor, mColor, window);
+    drawRect(0, 0, size().x, size().y, mColor, mColor, window);
 }
 
 

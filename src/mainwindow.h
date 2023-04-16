@@ -1,7 +1,6 @@
 #pragma once
 
 #include "tasks/taskexecutor.h"
-#include "widgets/welcomebackground.h"
 #include "widgets/mainmenu.h"
 #include "widgets/filestabs.h"
 
@@ -25,6 +24,8 @@ public:
 
     void toggleMainMenuVisibility();
 
+    void toggleWelcomeBackgroundVisibility();
+
 private:
     void draw();
     void onResize(size_t newWidth, size_t newHeight);
@@ -33,7 +34,6 @@ private:
     void createTasks();
 
     Widgets::MainMenu mMainMenu;
-    Widgets::WelcomeBackground mWelcomeBackground;
     Widgets::FilesTabs mFilesTabs;
 
     Olagarro::Tasks::TaskExecutor mTaskExecutor;

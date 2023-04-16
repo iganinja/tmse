@@ -46,7 +46,7 @@ void MainMenuItem::widgetDraw(Term::Window& window)
 
 void MainMenuItem::widgetOnReposition(Utils::Position newPosition)
 {
-    mMenu->setPosition(newPosition.x(), newPosition.y() + 1);
+    mMenu->setPosition(newPosition.x, newPosition.y + 1);
 }
 
 Menu& MainMenuItem::menu()

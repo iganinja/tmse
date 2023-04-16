@@ -83,7 +83,7 @@ size_t MainMenu::currentMenuIndex() const
 
 void MainMenu::widgetDraw(Term::Window& window)
 {
-    drawRect(0, 0, size().x(), size().y(), settings().mainMenuColors, window);
+    drawRect(0, 0, size().x, size().y, settings().mainMenuColors, window);
 
     for(auto& item : mItems)
     {
@@ -93,12 +93,12 @@ void MainMenu::widgetDraw(Term::Window& window)
 
 void MainMenu::widgetOnResize(size_t newWidth, size_t newHeight)
 {
-    int currentX = 1;
+    int currentX = 0;
 
     for(auto& item : mItems)
     {
-        item.setPosition(currentX, mPosition.y());
-        currentX += item.size().x();
+        item.setPosition(currentX, position().y);
+        currentX += item.size().x;
     }
 }
 

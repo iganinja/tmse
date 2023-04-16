@@ -1,6 +1,5 @@
 #include "menu.h"
 #include "settings.h"
-#include "utils/terminalutils.h"
 
 namespace Widgets
 {
@@ -13,11 +12,11 @@ void Menu::addEntry(MenuEntryUP&& entry)
 
     for(const auto& entry : mEntries)
     {
-        totalSize.setX(std::max(totalSize.x(), entry->length() + 1));
-        totalSize.setY(totalSize.y() + 1);
+        totalSize.x = std::max(totalSize.x, entry->length() + 1);
+        ++ totalSize.y;
     }
 
-    mSize = Utils::Size{totalSize.x() + 2, totalSize.y() + 2};
+    mSize = Utils::Size{totalSize.x + 2, totalSize.y + 2};
 }
 
 const std::vector<MenuEntryUP>& Menu::entries() const
@@ -42,17 +41,17 @@ void Menu::triggerSelectedEntry()
 
 void Menu::widgetDraw(Term::Window& window)
 {
-    drawBox(0, 0, size().x(), size().y(), settings().selectedMenuItemColors, window);
+    drawBox(0, 0, size().x, size().y, settings().selectedMenuItemColors, window);
 
-    Utils::Position p{position().x() + 1, position().y() + 1};
+    Utils::Position p{position().x + 2, position().y + 2};
 
     for(size_t i = 0; i < mEntries.size(); ++ i)
     {
         const auto& entry{mEntries[i]};
 
-        entry->draw(p.x(), p.y(), size().x(), mSelectedEntry == i, window);
+        entry->draw(p.x, p.y, size().x, mSelectedEntry == i, window);
 
-        p.setY(p.y() + 1);
+        ++ p.y;
     }
 }
 

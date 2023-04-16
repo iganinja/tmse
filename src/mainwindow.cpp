@@ -80,9 +80,13 @@ Widgets::MainMenu& MainWindow::mainMenu()
 void MainWindow::toggleMainMenuVisibility()
 {
     mMainMenu.setVisible(!mMainMenu.isVisible());
+    onResize(mLastTerminalSize.x, mLastTerminalSize.y);
+    draw();
+}
 
-    onResize(mLastTerminalSize.x(), mLastTerminalSize.y());
-
+void MainWindow::toggleWelcomeBackgroundVisibility()
+{
+    onResize(mLastTerminalSize.x, mLastTerminalSize.y);
     draw();
 }
 
@@ -91,7 +95,6 @@ void MainWindow::draw()
     mTerminalWindow->clear();
 
     mFilesTabs.draw(*mTerminalWindow);
-    mWelcomeBackground.draw(*mTerminalWindow);
     mMainMenu.draw(*mTerminalWindow);
 
     std::cout << mTerminalWindow->render(1, 1, true) << std::flush;
@@ -101,22 +104,16 @@ void MainWindow::onResize(size_t newWidth, size_t newHeight)
 {
     if(mMainMenu.isVisible())
     {
-        mMainMenu.setPosition(Utils::Position{1, 1});
+        mMainMenu.setPosition(0, 0);
         mMainMenu.onResize(newWidth, 1);
 
-        mFilesTabs.setPosition(Utils::Position{1, 2});
-        mFilesTabs.onResize(newWidth, 1);
-
-        mWelcomeBackground.setPosition(Utils::Position{1, 3});
-        mWelcomeBackground.onResize(newWidth, newHeight - 1 - 1);
+        mFilesTabs.setPosition(0, 1);
+        mFilesTabs.onResize(newWidth, newHeight - 1);
     }
     else
     {
-        mFilesTabs.setPosition(Utils::Position{1, 1});
-        mFilesTabs.onResize(newWidth, 1);
-
-        mWelcomeBackground.setPosition(Utils::Position{1, 2});
-        mWelcomeBackground.onResize(newWidth, newHeight - 1);
+        mFilesTabs.setPosition(0, 0);
+        mFilesTabs.onResize(newWidth, newHeight);
     }
 }
 
@@ -127,8 +124,8 @@ void MainWindow::checkTerminalResizing()
 
     if(mLastTerminalSize != currentSize)
     {
-        mTerminalWindow = std::make_unique<Term::Window>(currentSize.x(), currentSize.y());
-        onResize(currentSize.x(), currentSize.y());
+        mTerminalWindow = std::make_unique<Term::Window>(currentSize.x, currentSize.y);
+        onResize(currentSize.x, currentSize.y);
         mLastTerminalSize = currentSize;
     }
 }
