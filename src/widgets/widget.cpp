@@ -1,6 +1,8 @@
 #include "widget.h"
 #include "utils/terminalutils.h"
 
+#include <utf8.h>
+
 namespace Widgets
 {
 
@@ -148,6 +150,7 @@ void Widget::drawBox(int x, int y, size_t width, size_t height, const ColorSetti
 
 void Widget::write(int x, int y, const std::string& text, HorizontalAnchor hAnchor, Term::Color colorBG, Term::Color colorFG, bool useColors, Term::Window& window)
 {
+    const auto textLength{utf8::distance(text.begin(), text.end())};
     auto textX{0};
 
     switch(hAnchor)
@@ -156,16 +159,16 @@ void Widget::write(int x, int y, const std::string& text, HorizontalAnchor hAnch
         textX = position().x() + x;
         break;
     case HorizontalAnchor::Center:
-        textX = position().x() + x - text.length() / 2;
+        textX = position().x() + x - textLength / 2;
         break;
     case HorizontalAnchor::Right:
-        textX = position().x() + x - text.length();
+        textX = position().x() + x - textLength;
         break;
     }
 
     if(useColors)
     {
-        Utils::fillBGFG(window, textX, position().y() + y, textX + text.length() - 1, position().y() + y, colorBG, colorFG);
+        Utils::fillBGFG(window, textX, position().y() + y, textX + textLength - 1, position().y() + y, colorBG, colorFG);
     }
 
     window.print_str(textX, position().y() + y, text);

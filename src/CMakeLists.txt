@@ -16,6 +16,18 @@ if(NOT terminalcpp_POPULATED)
   include_directories(${terminalcpp_SOURCE_DIR})
 endif()
 
+FetchContent_Declare(utf8cpp
+  GIT_REPOSITORY https://github.com/nemtrif/utfcpp
+)
+
+FetchContent_GetProperties(utf8cpp)
+if(NOT utf8cpp_POPULATED)
+  FetchContent_Populate(utf8cpp)
+  set(UTF8_INSTALL OFF CACHE BOOL "" FORCE)
+  add_subdirectory(${utf8cpp_SOURCE_DIR} ${utf8cpp_BINARY_DIR} EXCLUDE_FROM_ALL)
+  include_directories(${utf8cpp_SOURCE_DIR}/source)
+endif()
+
 add_library(TextEditor STATIC
     commands/command.h
     commands/command.cpp

@@ -11,7 +11,7 @@ void WelcomeBackground::widgetDraw(Term::Window& window)
 
     drawRect(0, 0, size().x(), size().y(), settings().welcomeBackgroundColors, window);
 
-    write(1, 0, tr("hola qué tal"), HorizontalAnchor::Left, Term::Color::Name::Red, Term::Color::Name::BrightWhite, window);
+    write(1, 0, tr("hola qué tal ñ_ñ ò_ó Ò_Ó ç_ç Ç_Ç ¼"), HorizontalAnchor::Left, Term::Color::Name::Red, Term::Color::Name::BrightWhite, window);
 
     const std::vector<std::string> CenteredTexts
     {
@@ -31,8 +31,8 @@ void WelcomeBackground::widgetDraw(Term::Window& window)
     {
         for(const auto& text : textList)
         {
-            write(size().x() / 2 + offsetXFromCenter, baseY, text, anchor, Term::Color::Name::Red, Term::Color::Name::BrightWhite, window);
-            baseY += 1;
+            write(size().x() / 2 + offsetXFromCenter, baseY, text, anchor, settings().welcomeBackgroundColors, window);
+            ++ baseY;
         }
 
         return baseY;

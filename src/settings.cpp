@@ -6,7 +6,7 @@ using Color = Term::Color::Name;
 
 void loadSettings()
 {
-    settingsStorage.mainMenuColors = ColorSetting{Color::BrightMagenta, Color::BrightMagenta};
+    settingsStorage.mainMenuColors = ColorSetting{Color::Blue, Color::Blue};
 
     settingsStorage.menuItemColors = ColorSetting{Color::Blue, Color::BrightYellow};
 
