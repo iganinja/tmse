@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "tasks/mainwindowtasks.h"
 #include "tasks/mainmenutasks.h"
 
 #include <cpp-terminal/terminal.hpp>
@@ -25,6 +26,8 @@ void MainWindow::run()
 
     draw();
 
+    auto shouldRedraw{true};
+
     while(mShouldKeepRunning)
     {
         auto keyEvent{Term::Platform::read_raw()};
@@ -34,13 +37,21 @@ void MainWindow::run()
         if(!keyEvent.empty())
         {
             mCurrentKey = Term::Key{keyEvent};
+            shouldRedraw = true;
+        }
+        else
+        {
+            shouldRedraw = false;
+        }
 
-            mTaskExecutor.update();
+        mTaskExecutor.update();
 
+        if(shouldRedraw)
+        {
             draw();
         }
 
-        std::this_thread::sleep_for(100ms);
+        std::this_thread::sleep_for(50ms);
 
         checkTerminalResizing();
     }
@@ -70,16 +81,7 @@ void MainWindow::toggleMainMenuVisibility()
 {
     mMainMenu.setVisible(!mMainMenu.isVisible());
 
-    if(mMainMenu.isVisible())
-    {
-        mWelcomeBackground.setPosition(Utils::Position{1, 2});
-        mWelcomeBackground.onResize(mLastTerminalSize.x(), mLastTerminalSize.y() - 1);
-    }
-    else
-    {
-        mWelcomeBackground.setPosition(Utils::Position{1, 1});
-        mWelcomeBackground.onResize(mLastTerminalSize.x(), mLastTerminalSize.y());
-    }
+    onResize(mLastTerminalSize.x(), mLastTerminalSize.y());
 
     draw();
 }
@@ -88,6 +90,7 @@ void MainWindow::draw()
 {
     mTerminalWindow->clear();
 
+    mFilesTabs.draw(*mTerminalWindow);
     mWelcomeBackground.draw(*mTerminalWindow);
     mMainMenu.draw(*mTerminalWindow);
 
@@ -96,11 +99,25 @@ void MainWindow::draw()
 
 void MainWindow::onResize(size_t newWidth, size_t newHeight)
 {
-    mMainMenu.setPosition(Utils::Position{1, 1});
-    mMainMenu.onResize(newWidth, 1);
+    if(mMainMenu.isVisible())
+    {
+        mMainMenu.setPosition(Utils::Position{1, 1});
+        mMainMenu.onResize(newWidth, 1);
 
-    mWelcomeBackground.setPosition(Utils::Position{1, 2});
-    mWelcomeBackground.onResize(newWidth, newHeight - 1);
+        mFilesTabs.setPosition(Utils::Position{1, 2});
+        mFilesTabs.onResize(newWidth, 1);
+
+        mWelcomeBackground.setPosition(Utils::Position{1, 3});
+        mWelcomeBackground.onResize(newWidth, newHeight - 1 - 1);
+    }
+    else
+    {
+        mFilesTabs.setPosition(Utils::Position{1, 1});
+        mFilesTabs.onResize(newWidth, 1);
+
+        mWelcomeBackground.setPosition(Utils::Position{1, 2});
+        mWelcomeBackground.onResize(newWidth, newHeight - 1);
+    }
 }
 
 void MainWindow::checkTerminalResizing()
@@ -118,5 +135,6 @@ void MainWindow::checkTerminalResizing()
 
 void MainWindow::createTasks()
 {
+    mTaskExecutor.addTask(TMSETasks::mainWindowTasks(*this));
     mTaskExecutor.addTask(TMSETasks::mainMenu(*this));
 }

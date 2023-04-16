@@ -11,11 +11,12 @@ struct ColorSetting
 struct Settings
 {
     ColorSetting mainMenuColors;
+    ColorSetting welcomeBackgroundColors;
 
     ColorSetting menuItemColors;
     ColorSetting selectedMenuItemColors;
     ColorSetting menuItemCurrentItemColors;
-    ColorSetting welcomeBackgroundColors;
+    ColorSetting filesTabsColors;
 };
 
 void loadSettings();

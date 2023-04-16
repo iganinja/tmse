@@ -1,12 +1,12 @@
 #pragma once
 
-#include <tasks/taskexecutor.h>
-#include <cpp-terminal/terminal.hpp>
-#include <cpp-terminal/input.hpp>
-
+#include "tasks/taskexecutor.h"
 #include "widgets/welcomebackground.h"
 #include "widgets/mainmenu.h"
+#include "widgets/filestabs.h"
 
+#include <cpp-terminal/terminal.hpp>
+#include <cpp-terminal/input.hpp>
 #include <memory>
 
 class MainWindow
@@ -34,6 +34,7 @@ private:
 
     Widgets::MainMenu mMainMenu;
     Widgets::WelcomeBackground mWelcomeBackground;
+    Widgets::FilesTabs mFilesTabs;
 
     Olagarro::Tasks::TaskExecutor mTaskExecutor;
 

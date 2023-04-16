@@ -1,9 +1,9 @@
 #pragma once
 
 #include <cpp-terminal/window.hpp>
-#include <tasks/task.h>
 #include <memory>
 
+#include "tasks/task.h"
 #include "utils/size.h"
 #include "settings.h"
 

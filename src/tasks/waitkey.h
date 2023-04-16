@@ -1,8 +1,9 @@
 #pragma once
 
-#include <tasks/task.h>
-#include <cpp-terminal/key.hpp>
+#include "tasks/task.h"
 #include "mainwindow.h"
+
+#include <cpp-terminal/key.hpp>
 
 
 namespace TMSETasks

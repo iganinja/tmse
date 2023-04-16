@@ -1,7 +1,7 @@
 #pragma once
 
 #include "mainwindow.h"
-#include <tasks/wait.h>
+#include "tasks/wait.h"
 
 namespace TMSETasks
 {

@@ -13,7 +13,7 @@ void WelcomeBackground::widgetDraw(Term::Window& window)
 
     //write(1, 0, tr("hola qué tal ñ_ñ ò_ó Ò_Ó ç_ç Ç_Ç ¼"), HorizontalAnchor::Left, Term::Color::Name::Red, Term::Color::Name::BrightWhite, window);
 
-    const std::vector<std::string> CenteredTexts
+    static const std::vector<std::string> CenteredTexts
     {
         tr("Welcome to Text Mode Sane Editor!"),
         tr("version 0.1"),
@@ -21,7 +21,7 @@ void WelcomeBackground::widgetDraw(Term::Window& window)
         tr("Some keyboard shortcuts:")
     };
 
-    const std::vector<std::string> ShortcutTexts
+    static const std::vector<std::string> ShortcutTexts
     {
         tr(" F4: toggle main menu"),
         tr("F12: exit")
