@@ -71,7 +71,7 @@ build-linux-imx8mm:
  when: manual
  artifacts:
    paths:
-     - build_rpi3/TMSE
+     - build_imx8mm/TMSE
 
 build-win64:
   tags:
