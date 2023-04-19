@@ -60,7 +60,6 @@ build-linux-imx8mm:
  stage: build
  before_script:
    - apt-get update
-   - for PROBDIR in "" "/usr" "/usr/local"; do find "${PROBDIR}/lib/x86_64-linux-gnu" -type f -ls; done;
    - apt install libc-bin -y
    - mv /var/lib/dpkg/info/libc-bin.* /tmp/
    - apt install libc-bin -y
