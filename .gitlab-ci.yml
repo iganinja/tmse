@@ -56,7 +56,7 @@ build-linux-rpi3:
      - build_rpi3/TMSE
 
 build-linux-imx8mm:
- image: balenalib/imx8mm-var-dart-node:latest
+ image: balenalib/imx8mm-var-som-node:latest
  stage: build
  before_script:
    - apt-get update
