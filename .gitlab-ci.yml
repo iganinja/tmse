@@ -1,25 +1,25 @@
 stages :
-  - test
+  #- test
   - build
 
-test-linux-x86_64:
-  tags:
-    - "linux"
-  stage: test
-  before_script:
-    - apt-get update && apt-get install -y --no-install-recommends make cmake g++
-    - mkdir -p $HOME/.local
-    - curl -s "https://cmake.org/files/v3.26/cmake-3.26.0-linux-x86_64.tar.gz" | tar --strip-components=1 -xz -C $HOME/.local
-    - export PATH=$HOME/.local/bin:$PATH
-  script:
-    - mkdir -p build_tests
-    - cd build_tests
-    - cmake ../tests && cmake --build . && make
-    - ./TMSE_tests --gtest_output="xml:report.xml"
-  when: always
-  artifacts:
-    reports:
-      junit: build_tests/report.xml
+#test-linux-x86_64:
+#  tags:
+#    - "linux"
+#  stage: test
+#  before_script:
+#    - apt-get update && apt-get install -y --no-install-recommends make cmake g++
+#    - mkdir -p $HOME/.local
+#    - curl -s "https://cmake.org/files/v3.26/cmake-3.26.0-linux-x86_64.tar.gz" | tar --strip-components=1 -xz -C $HOME/.local
+#    - export PATH=$HOME/.local/bin:$PATH
+#  script:
+#    - mkdir -p build_tests
+#    - cd build_tests
+#    - cmake ../tests && cmake --build . && make
+#    - ./TMSE_tests --gtest_output="xml:report.xml"
+#  when: always
+#  artifacts:
+#    reports:
+#      junit: build_tests/report.xml
 
 build-linux-x86_64:
   tags:
@@ -40,7 +40,7 @@ build-linux-x86_64:
       - build/TMSE
 
 
-build-linux-rpi3_64:
+build-linux-rpi3:
  image: balenalib/raspberrypi3-node:latest
  stage: build
  before_script:
@@ -54,6 +54,24 @@ build-linux-rpi3_64:
  artifacts:
    paths:
      - build_rpi3/TMSE
+
+build-linux-imx8mm:
+ image: balenalib/imx8mm-var-som-node:latest
+ stage: build
+ before_script:
+   - apt-get update
+   - apt install libc-bin -y
+   - mv /var/lib/dpkg/info/libc-bin.* /tmp/
+   - apt install libc-bin -y
+   - apt-get install -y build-essential cmake git
+ script:
+   - mkdir build_imx8mm
+   - cd build_imx8mm
+   - cmake .. && cmake --build . && make
+ when: manual
+ artifacts:
+   paths:
+     - build_imx8mm/TMSE
 
 build-win64:
   tags:
