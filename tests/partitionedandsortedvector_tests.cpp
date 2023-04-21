@@ -1,4 +1,4 @@
-#include "../src/utils/PartitionedAndSortedVector.h"
+#include "../src/utils/partitionedandsortedvector.h"
 
 #include <gtest/gtest.h>
 #include <array>
