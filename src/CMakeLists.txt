@@ -60,6 +60,7 @@ add_library(TextEditor STATIC
     utils/exception.h
     utils/exception.cpp
     utils/event.h
+    utils/partitionedandsortedvector.h
 
     tasks/mainmenutasks.h
     tasks/mainmenutasks.cpp
