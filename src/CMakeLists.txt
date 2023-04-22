@@ -52,6 +52,8 @@ add_library(TextEditor STATIC
     widgets/welcomebackground.cpp
     widgets/filestabs.h
     widgets/filestabs.cpp
+    widgets/list.h
+    widgets/list.cpp
 
     utils/vector2d.h
     utils/size.h
@@ -73,6 +75,8 @@ add_library(TextEditor STATIC
     tasks/mainwindowtasks.h
     tasks/mainwindowtasks.cpp
     tasks/waitevent.h
+    tasks/listtasks.h
+    tasks/listtasks.cpp
 
     settings.h
     settings.cpp
