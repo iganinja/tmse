@@ -3,6 +3,7 @@
 #include "tasks/taskexecutor.h"
 #include "widgets/mainmenu.h"
 #include "widgets/filestabs.h"
+#include "widgets/textbox.h"
 
 #include <cpp-terminal/terminal.hpp>
 #include <cpp-terminal/input.hpp>
@@ -26,6 +27,9 @@ public:
 
     void toggleWelcomeBackgroundVisibility();
 
+    void enableModal();
+    void disableModal();
+
 private:
     void draw();
     void onResize(size_t newWidth, size_t newHeight);
@@ -35,6 +39,7 @@ private:
 
     Widgets::MainMenu mMainMenu;
     Widgets::FilesTabs mFilesTabs;
+    Widgets::TextBox testingTextBox;
 
     Olagarro::Tasks::TaskExecutor mTaskExecutor;
 
@@ -44,5 +49,6 @@ private:
     Utils::Size mLastTerminalSize;
 
     Term::Key mCurrentKey{Term::Key::NO_KEY};
+    bool mIsModal{false};
 };
 

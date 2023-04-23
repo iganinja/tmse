@@ -10,6 +10,9 @@ class List : public Widget
 public:
     void setElements(std::vector<std::string>&& elements);
 
+    void setDrawBorder(bool drawBorder);
+    bool doesDrawBorder() const;
+
     int currentElementIndex() const;
     void setCurrentElementIndex(int index);
     void selectNextElement();
@@ -26,6 +29,7 @@ private:
     std::vector<std::string> mElements;
     int mCurrentElementIndex{0};
     std::vector<size_t> mElementsLengths;
+    bool mDrawBorder{false};
 };
 
 }

@@ -24,6 +24,7 @@ add_executable(
   undoredostack_tests.cpp
   document_tests.cpp
   partitionedandsortedvector_tests.cpp
+  stringutils_tests.cpp
 )
 target_link_libraries(TMSE_tests
   PRIVATE GTest::gtest_main

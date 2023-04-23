@@ -13,6 +13,16 @@ void List::setElements(std::vector<std::string>&& elements)
     calculateElementsLengths();
 }
 
+void List::setDrawBorder(bool drawBorder)
+{
+    mDrawBorder = drawBorder;
+}
+
+bool List::doesDrawBorder() const
+{
+    return mDrawBorder;
+}
+
 int List::currentElementIndex() const
 {
     return mCurrentElementIndex;
@@ -56,7 +66,14 @@ const std::vector<std::string> List::elements() const
 
 void List::widgetDraw(Term::Window& window)
 {
-    drawBox(position().x, position().y, size().x, size().y, settings().menuItemColors, window);
+    if(doesDrawBorder())
+    {
+        drawBox(position().x, position().y, size().x, size().y, settings().menuItemColors, window);
+    }
+    else
+    {
+        drawRect(position().x, position().y, size().x, size().y, settings().menuItemColors, window);
+    }
 
     auto y{position().y + 1};
 

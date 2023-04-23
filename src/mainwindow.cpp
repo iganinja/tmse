@@ -11,11 +11,18 @@ using namespace TMSETasks;
 using namespace std::chrono_literals;
 
 MainWindow::MainWindow() :
-    mTerminal{{Term::Options::Option::ClearScreen, Term::Options::Option::Cursor, Term::Options::Option::NoSignalKeys}}
+    mTerminal{{Term::Options::Option::ClearScreen, Term::Options::Option::NoCursor, Term::Options::Option::NoSignalKeys}}
 {
     Term::terminal_title("Text Mode Sane Editor");
 
     checkTerminalResizing();
+
+    std::string text
+    {
+        "Lorem fistrum jarl papaar papaar de la pradera jarl diodeno mamaar. Va usté muy cargadoo qué dise usteer tiene musho peligro te va a hasé pupitaa te voy a borrar el cerito. Va usté muy cargadoo apetecan fistro no puedor te va a hasé pupitaa no puedor benemeritaar no puedor ese hombree."
+    };
+
+    testingTextBox.setText(std::move(text));
 
     toggleMainMenuVisibility();
 }
@@ -51,7 +58,7 @@ void MainWindow::run()
             draw();
         }
 
-        std::this_thread::sleep_for(50ms);
+        std::this_thread::sleep_for(1ms);
 
         checkTerminalResizing();
     }
@@ -96,6 +103,7 @@ void MainWindow::draw()
 
     mFilesTabs.draw(*mTerminalWindow);
     mMainMenu.draw(*mTerminalWindow);
+    testingTextBox.draw(*mTerminalWindow);
 
     std::cout << mTerminalWindow->render(1, 1, true) << std::flush;
 }
@@ -109,11 +117,17 @@ void MainWindow::onResize(size_t newWidth, size_t newHeight)
 
         mFilesTabs.setPosition(0, 1);
         mFilesTabs.onResize(newWidth, newHeight - 1);
+
+        testingTextBox.setPosition(0, 11);
+        testingTextBox.onResize(newWidth, 3);
     }
     else
     {
         mFilesTabs.setPosition(0, 0);
         mFilesTabs.onResize(newWidth, newHeight);
+
+        testingTextBox.setPosition(0, 10);
+        testingTextBox.onResize(newWidth, 3);
     }
 }
 
