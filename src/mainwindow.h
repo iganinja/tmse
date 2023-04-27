@@ -52,5 +52,7 @@ private:
 
     Term::Key mCurrentKey{Term::Key::NO_KEY};
     bool mIsModal{false};
+
+    Utils::Size mSize;
 };
 

@@ -36,14 +36,14 @@ int main()
         std::cout << "Error: " << exception.message() << "\n";
         return 1;
     }
-    catch(const Term::Exception& re)
+    catch(const Term::Exception& exception)
     {
-        std::cout << "cpp-terminal error: " << re.what() << "\n";
+        std::cout << "cpp-terminal error: " << exception.what() << "\n";
         return 2;
     }
-    catch(...)
+    catch(const std::exception& exception)
     {
-        std::cout << "Unknown error\n";
+        std::cout << "Unknown error: " << exception.what() << "\n";
         return 3;
     }
 

@@ -20,9 +20,10 @@ MainWindow::MainWindow() :
 
     std::string text
     {
-        "Lorem fistrum jarl papaar papaar de la pradera jarl diodeno mamaar.\nVa usté muy cargadoo qué dise usteer tiene musho peligro te va a hasé pupitaa te voy a borrar el cerito. Va usté muy cargadoo apetecan fistro no puedor te va a hasé pupitaa no puedor benemeritaar no puedor ese hombree."
+        "Esto es una prueba de un texto que tiene que partirse pero al nivel de las palabras, no a nivel de carácteres."
     };
 
+    testingTextBox.setTitle("Warning");
     testingTextBox.setText(std::move(text));
 
     toggleMainMenuVisibility();
@@ -102,6 +103,12 @@ void MainWindow::draw()
 {
     mTerminalWindow->clear();
 
+    // WARNING Temporal
+    if(mSize.x <= 40 || mSize.y < 10)
+    {
+        return;
+    }
+
     mFilesTabs.draw(*mTerminalWindow);
     mMainMenu.draw(*mTerminalWindow);
     testingSelectionWindow.draw(*mTerminalWindow);
@@ -112,6 +119,8 @@ void MainWindow::draw()
 
 void MainWindow::onResize(size_t newWidth, size_t newHeight)
 {
+    mSize = Utils::Size{newWidth, newHeight};
+
     if(mMainMenu.isVisible())
     {
         mMainMenu.setPosition(0, 0);
@@ -131,7 +140,7 @@ void MainWindow::onResize(size_t newWidth, size_t newHeight)
     }
 
     testingTextBox.setPosition(10, 20);
-    testingTextBox.onResize(80, 6);
+    testingTextBox.onResize(newWidth * 0.8, 6);
 }
 
 void MainWindow::checkTerminalResizing()

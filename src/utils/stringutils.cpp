@@ -121,4 +121,14 @@ void trim(std::string& string, char characterToTrim)
     string.erase(it, string.end());
 }
 
+void replaceAll(std::string& string, const std::string& oldString, const std::string& newString)
+{
+    std::string::size_type position{0};
+    while((position = string.find(oldString, position)) != std::string::npos)
+    {
+        string.replace(position, oldString.length(), newString);
+        position += newString.length();
+    }
+}
+
 }

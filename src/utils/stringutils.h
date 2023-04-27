@@ -11,5 +11,6 @@ size_t length(const std::string& string);
 std::string subString(const std::string& string, size_t startIndex, size_t length);
 std::vector<std::string> split(const std::string& string, char separator = ' ');
 void trim(std::string& string, char characterToTrim = ' ');
+void replaceAll(std::string& string, const std::string& oldString, const std::string& newString);
 
 }

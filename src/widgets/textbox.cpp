@@ -1,7 +1,7 @@
 #include "textbox.h"
-#include "settings.h"
 #include "utils/stringutils.h"
 
+#include <utf8.h>
 #include <iostream>
 
 namespace Widgets
@@ -9,7 +9,23 @@ namespace Widgets
 
 void TextBox::setText(std::string&& text)
 {
-    updateText(std::move(text));
+    mText = std::move(text);
+
+    updateText();
+}
+
+void TextBox::setTitle(std::string&& title)
+{
+    mTitle = std::move(title);
+
+    mTitle = "[" + mTitle + "]";
+    setDrawBorder(true);
+}
+
+void TextBox::setColors(const Term::Color& backgroundColor, const Term::Color& foregroundColor)
+{
+    mBackgroundColor = backgroundColor;
+    mForegroundColor = foregroundColor;
 }
 
 void TextBox::setDrawBorder(bool drawBorder)
@@ -26,36 +42,23 @@ void TextBox::widgetDraw(Term::Window& window)
 {
     if(doesDrawBorder())
     {
-        drawBox(0, 0, size().x, size().y, settings().menuItemColors, window);
+        drawBox(0, 0, size().x, size().y, mBackgroundColor, mForegroundColor, window);
+
+        if(!mTitle.empty())
+        {
+            write(2, 0, mTitle, HorizontalAnchor::Left, window);
+        }
     }
     else
     {
-        drawRect(0, 0, size().x, size().y, settings().menuItemColors, window);
+        drawRect(0, 0, size().x, size().y, mBackgroundColor, mForegroundColor, window);
     }
 
-    Utils::Position p{0, 0};
+    Utils::Position p{doesDrawBorder()? 1 : 0, doesDrawBorder()? 1 : 0};
 
-    for(const auto& row : mWordRows)
+    for(const auto& line : mLines)
     {
-        for(auto i = 0u; i < row.size(); ++ i)
-        {
-            auto& word{row[i]};
-
-            if(word == "\n")
-            {
-                break;
-            }
-
-            write(p.x, p.y, word, HorizontalAnchor::Left, window);
-            p.x += Utils::length(word);
-
-            if(i < row.size() - 1)
-            {
-                write(p.x, p.y, " ", HorizontalAnchor::Left, window);
-                ++ p.x;
-            }
-        }
-        p.x = 0;
+        write(p.x, p.y, line, HorizontalAnchor::Left, window);
         ++ p.y;
     }
 }
@@ -67,106 +70,82 @@ void TextBox::widgetOnResize(size_t newWidth, size_t newHeight)
 
 void TextBox::updateText(std::string&& text)
 {
-    mWordRows.clear();
-    mWordRows.push_back(Utils::split(text));
+    mText = std::move(text);
     updateText();
-}
-
-void mergeAllWordsInOneVector(std::vector<std::vector<std::string>>& wordRows)
-{
-    if(wordRows.size() > 1)
-    {
-        auto& allWords{wordRows.front()};
-
-        for(auto i = 1u; i < wordRows.size(); ++ i)
-        {
-            auto& currentRowWords{wordRows[i]};
-            allWords.insert(allWords.end(), currentRowWords.begin(), currentRowWords.end());
-        }
-
-        wordRows.resize(1u);
-    }
-}
-
-void processWords(std::vector<std::string>& words)
-{
-    auto it{words.begin()};
-
-    constexpr char SpecialCharacters[]{'\n', '\t'};
-
-    std::string word;
-
-    while(it != words.end())
-    {
-        word = *it;
-
-        for(auto specialCharacter : SpecialCharacters)
-        {
-            if(word.find(specialCharacter) != std::string::npos)
-            {
-                const auto subWords{Utils::split(word, specialCharacter)};
-
-                for(const auto& subWord : subWords)
-                {
-                    it = words.insert(it, subWord);
-                }
-            }
-        }
-
-        ++ it;
-    }
 }
 
 void TextBox::updateText()
 {
-    if(mWordRows.empty())
+    if(mText.empty())
     {
         return;
     }
 
-    mergeAllWordsInOneVector(mWordRows);
+    const auto xOffset{doesDrawBorder()? 1 + 1 : 0};
 
-    auto words{mWordRows.front()};
+    auto beginIt{mText.begin()};
+    auto endIt{mText.begin()};
+    auto lastSpaceIt{mText.begin()};
 
-    processWords(words);
+    mLines.clear();
+    mLines.reserve(size().y);
 
-    mWordRows.clear();
+    std::string line;
+    line.reserve(size().x);
 
-    const auto rows{size().y};
-    const auto maximumRowWidth{size().x};
+    Utils::replaceAll(mText, "\t", "    ");
 
-    auto currentRow{0};
-    auto currentWord{0};
+    auto y{0};
 
-    while(currentRow <= rows && currentWord < words.size())
+    while(endIt != mText.end() && y < size().y)
     {
-        mWordRows.push_back({});
+        auto currentLineLength{utf8::distance(beginIt, endIt)};
 
-        auto currentWidth{0};
-
-        while(currentWord < words.size() && words[currentWord] != "\n" && currentWidth + Utils::length(words[currentWord]) + 1 < maximumRowWidth)
+        while(currentLineLength + xOffset < size().x && endIt != mText.end())
         {
-            mWordRows.back().push_back(words[currentWord]);
-            currentWidth += Utils::length(words[currentWord]) + 1;
-            ++ currentWord;
+            const auto c{*endIt};
+
+            if(c == ' ')
+            {
+                lastSpaceIt = endIt;
+            }
+            else if(c == '\n')
+            {
+                utf8::next(endIt, mText.end());
+                break;
+            }
+            else if(c != '\t' && currentLineLength + xOffset == size().x - 1)
+            {
+                endIt = lastSpaceIt;
+                break;
+            }
+
+            utf8::next(endIt, mText.end());
+            currentLineLength = utf8::distance(beginIt, endIt);
         }
 
-        // Perhaps one more word fits without the space character
-        if(currentWord < words.size())
+        if(utf8::distance(beginIt, endIt) == 0)
         {
-            if(words[currentWord] == "\n")
-            {
-                mWordRows.back().push_back(words[currentWord]);
-            }
-            else if(currentWidth + Utils::length(words[currentWord]) <= maximumRowWidth)
-            {
-                mWordRows.back().push_back(words[currentWord]);
-                ++ currentWord;
-            }
+            break;
         }
 
-        ++ currentRow;;
+        line.insert(line.begin(), beginIt, endIt);
+
+        Utils::trim(line, '\n');
+
+        if(line.front() == ' ')
+        {
+            line.erase(0, 1);
+        }
+
+        beginIt = endIt;
+
+        mLines.push_back(line);
+
+        line.clear();
     }
+
+    mLines.shrink_to_fit();
 }
 
 }
