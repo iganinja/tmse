@@ -8,7 +8,7 @@ namespace Tasks
 
 void TaskExecutor::addTask(TaskUP&& task)
 {
-    if(not task)
+    if(!task)
     {
         return;
     }
@@ -22,7 +22,7 @@ void TaskExecutor::update()
 
     auto it{std::remove_if(mTasks.begin(), mTasks.end(), [deltaTime](TaskUP& task)
     {
-        if(not task->wasStarted())
+        if(!task->wasStarted())
         {
             task->onAboutToStart();
         }

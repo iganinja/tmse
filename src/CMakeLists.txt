@@ -56,6 +56,8 @@ add_library(TextEditor STATIC
     widgets/list.cpp
     widgets/textbox.h
     widgets/textbox.cpp
+    widgets/selectionwindow.h
+    widgets/selectionwindow.cpp
 
     utils/vector2d.h
     utils/size.h

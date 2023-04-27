@@ -41,7 +41,7 @@ protected:
 
     State taskUpdate(float deltaTime) override
     {
-        if(not mPredicate())
+        if(!mPredicate())
         {
             return State::Finished;
         }

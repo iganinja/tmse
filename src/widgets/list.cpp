@@ -68,14 +68,12 @@ void List::widgetDraw(Term::Window& window)
 {
     if(doesDrawBorder())
     {
-        drawBox(position().x, position().y, size().x, size().y, settings().menuItemColors, window);
+        drawBox(0, 0, size().x, size().y, settings().menuItemColors, window);
     }
     else
     {
-        drawRect(position().x, position().y, size().x, size().y, settings().menuItemColors, window);
+        drawRect(0, 0, size().x, size().y, settings().menuItemColors, window);
     }
-
-    auto y{position().y + 1};
 
     const auto maximumVisibleElements{size().y - 2};
     auto elementsToPaint{static_cast<int>(mElements.size())};
@@ -94,13 +92,18 @@ void List::widgetDraw(Term::Window& window)
         }
     }
 
+    const auto x{doesDrawBorder()? 1 : 0};
+    auto y{doesDrawBorder()? 1 : 0};
+
+    const auto width{doesDrawBorder()? size().x - 2 : size().x};
+
     std::string boundedLineText;
 
     for(auto i = baseIndex; i < elementsToPaint + baseIndex; ++ i)
     {
         if(i == mCurrentElementIndex)
         {
-            drawRect(position().x + 1, y, size().x - 2, 1, settings().selectedMenuItemColors, window);
+            drawRect(x, y, width, 1, settings().selectedMenuItemColors, window);
         }
 
         const auto& lineText{mElements[i]};
@@ -108,7 +111,7 @@ void List::widgetDraw(Term::Window& window)
         boundedLineText.resize(mElementsLengths[i]);
         std::copy(lineText.begin(), lineText.begin() + mElementsLengths[i], boundedLineText.begin());
 
-        write(position().x + 1, y, boundedLineText, HorizontalAnchor::Left, window);
+        write(x + 1, y, boundedLineText, HorizontalAnchor::Left, window);
 
         ++ y;
     }
@@ -124,7 +127,7 @@ void List::calculateElementsLengths()
     mElementsLengths.clear();
     mElementsLengths.reserve(mElements.size());
 
-    const auto maximumWidth{size().x - 2};
+    const auto maximumWidth{doesDrawBorder()? size().x - 2 : size().x};
 
     for(const auto& element : mElements)
     {

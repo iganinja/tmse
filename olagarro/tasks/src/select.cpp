@@ -13,7 +13,7 @@ public:
     {
         for(auto& entry : entries)
         {
-            if(not entry.task)
+            if(!entry.task)
             {
                 continue;
             }

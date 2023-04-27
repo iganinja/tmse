@@ -3,6 +3,7 @@
 #include "tasks/taskexecutor.h"
 #include "widgets/mainmenu.h"
 #include "widgets/filestabs.h"
+#include "widgets/selectionwindow.h"
 #include "widgets/textbox.h"
 
 #include <cpp-terminal/terminal.hpp>
@@ -39,6 +40,7 @@ private:
 
     Widgets::MainMenu mMainMenu;
     Widgets::FilesTabs mFilesTabs;
+    Widgets::SelectionWindow testingSelectionWindow;
     Widgets::TextBox testingTextBox;
 
     Olagarro::Tasks::TaskExecutor mTaskExecutor;

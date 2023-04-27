@@ -34,7 +34,7 @@ public:
     {
         mCurrentTaskIndex = 0;
 
-        if(not mTasks.empty())
+        if(!mTasks.empty())
         {
             mTasks[mCurrentTaskIndex]->onAboutToStart();
         }

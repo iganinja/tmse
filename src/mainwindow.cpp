@@ -11,7 +11,8 @@ using namespace TMSETasks;
 using namespace std::chrono_literals;
 
 MainWindow::MainWindow() :
-    mTerminal{{Term::Options::Option::ClearScreen, Term::Options::Option::NoCursor, Term::Options::Option::NoSignalKeys}}
+    mTerminal{{Term::Options::Option::ClearScreen, Term::Options::Option::NoCursor, Term::Options::Option::NoSignalKeys}},
+    testingSelectionWindow{"Text Mode Sane Editor v0.1", {"OK"}, 40, 1, 1}
 {
     Term::terminal_title("Text Mode Sane Editor");
 
@@ -19,7 +20,7 @@ MainWindow::MainWindow() :
 
     std::string text
     {
-        "Lorem fistrum jarl papaar papaar de la pradera jarl diodeno mamaar. Va usté muy cargadoo qué dise usteer tiene musho peligro te va a hasé pupitaa te voy a borrar el cerito. Va usté muy cargadoo apetecan fistro no puedor te va a hasé pupitaa no puedor benemeritaar no puedor ese hombree."
+        "Lorem fistrum jarl papaar papaar de la pradera jarl diodeno mamaar.\nVa usté muy cargadoo qué dise usteer tiene musho peligro te va a hasé pupitaa te voy a borrar el cerito. Va usté muy cargadoo apetecan fistro no puedor te va a hasé pupitaa no puedor benemeritaar no puedor ese hombree."
     };
 
     testingTextBox.setText(std::move(text));
@@ -103,6 +104,7 @@ void MainWindow::draw()
 
     mFilesTabs.draw(*mTerminalWindow);
     mMainMenu.draw(*mTerminalWindow);
+    testingSelectionWindow.draw(*mTerminalWindow);
     testingTextBox.draw(*mTerminalWindow);
 
     std::cout << mTerminalWindow->render(1, 1, true) << std::flush;
@@ -118,17 +120,18 @@ void MainWindow::onResize(size_t newWidth, size_t newHeight)
         mFilesTabs.setPosition(0, 1);
         mFilesTabs.onResize(newWidth, newHeight - 1);
 
-        testingTextBox.setPosition(0, 11);
-        testingTextBox.onResize(newWidth, 3);
+        testingSelectionWindow.setPosition(1, 2);
     }
     else
     {
         mFilesTabs.setPosition(0, 0);
         mFilesTabs.onResize(newWidth, newHeight);
 
-        testingTextBox.setPosition(0, 10);
-        testingTextBox.onResize(newWidth, 3);
+        testingSelectionWindow.setPosition(1, 1);
     }
+
+    testingTextBox.setPosition(10, 20);
+    testingTextBox.onResize(80, 6);
 }
 
 void MainWindow::checkTerminalResizing()
