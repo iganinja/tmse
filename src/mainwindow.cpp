@@ -12,7 +12,7 @@ using namespace std::chrono_literals;
 
 MainWindow::MainWindow() :
     mTerminal{{Term::Options::Option::ClearScreen, Term::Options::Option::NoCursor, Term::Options::Option::NoSignalKeys}},
-    testingSelectionWindow{"Text Mode Sane Editor v0.1", {"OK"}, 40, 1, 1}
+    testingSelectionWindow{"About", "Text Mode Sane Editor v0.1", {"OK"}, 40, 1, 1}
 {
     Term::terminal_title("Text Mode Sane Editor");
 

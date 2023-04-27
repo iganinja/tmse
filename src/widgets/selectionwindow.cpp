@@ -4,7 +4,8 @@
 namespace Widgets
 {
 
-SelectionWindow::SelectionWindow(std::string&& messageText, std::vector<std::string>&& options, size_t width, size_t messageBoxHeight, size_t listHeight)
+SelectionWindow::SelectionWindow(std::string&& title, std::string&& messageText, std::vector<std::string>&& options, size_t width, size_t messageBoxHeight, size_t listHeight) :
+    mTitle{"[" + std::move(title) + "]"}
 {
     onResize(width, messageBoxHeight + listHeight + 2);
 
@@ -23,6 +24,7 @@ size_t SelectionWindow::selectedOption() const
 void SelectionWindow::widgetDraw(Term::Window& window)
 {
     drawBox(0, 0, size().x, size().y, settings().menuItemColors, window);
+    write(2, 0, mTitle, HorizontalAnchor::Left, window);
     mTextBox.draw(window);
     mList.draw(window);
 }
