@@ -3,6 +3,7 @@
 #include "tasks/mainmenutasks.h"
 
 #include <cpp-terminal/terminal.hpp>
+#include "cpp-terminal/screen.hpp"
 #include <thread>
 #include <iostream>
 
@@ -11,10 +12,10 @@ using namespace TMSETasks;
 using namespace std::chrono_literals;
 
 MainWindow::MainWindow() :
-    mTerminal{{Term::Options::Option::ClearScreen, Term::Options::Option::NoCursor, Term::Options::Option::NoSignalKeys}},
     testingSelectionWindow{"About", "Text Mode Sane Editor v0.1", {"OK"}, 40, 1, 1}
 {
     Term::terminal_title("Text Mode Sane Editor");
+    Term::terminal.setOptions({Term::Option::ClearScreen, Term::Option::NoSignalKeys, Term::Option::NoCursor, Term::Option::Raw});
 
     checkTerminalResizing();
 
